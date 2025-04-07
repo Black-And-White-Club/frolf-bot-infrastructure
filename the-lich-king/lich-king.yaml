@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: lich-king
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
+        revision: main
+        files:
+          - path: "argocd-applications/*"
+  template:
+    metadata:
+      name: '{{ trimSuffix ".yaml" .path.filename }}'
+      labels:
+        type: applicationset-definition
+    spec:
+      project: frolf-bot
+      source:
+        repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
+        targetRevision: main
+        path: "{{ .path.path }}"
+        directory:
+          include: "{{ .path.filename }}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd
+      # syncPolicy:
+      #   automated:
+      #     prune: true
+      #     selfHeal: true
