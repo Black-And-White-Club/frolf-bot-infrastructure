@@ -1,0 +1,10 @@
+primary:
+  service:
+    ## Set the service type to NodePort
+    type: ClusterIP
+
+auth:
+  database: tcr-bot
+  username: local
+  password: local
+  postgresPassword: admin

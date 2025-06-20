@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: multi-source-applications
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
+        revision: main
+        files:
+          - path: "multi-source-apps/*.yaml"
+  template:
+    metadata:
+      name: "{{ name }}"
+      labels:
+        app: "{{ app.name }}"
+        type: multi-source
+      annotations:
+        argocd.argoproj.io/sync-options: "{{ app.ssa }}"
+    spec:
+      project: resume-portfolio
+      sources:
+        - repoURL: "{{ app.helmRepo }}"
+          chart: "{{ app.chart }}"
+          targetRevision: "{{ app.chartVersion }}"
+          helm:
+            valueFiles:
+              - "$values/{{ app.valueFiles }}"
+        - repoURL: "https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git"
+          targetRevision: main
+          ref: values
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{ app.namespace }}"
+      # syncPolicy:
+      #   automated:
+      #     prune: true
+      #     selfHeal: true

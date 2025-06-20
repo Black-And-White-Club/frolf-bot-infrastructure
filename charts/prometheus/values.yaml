@@ -1,0 +1,10 @@
+server:
+  global:
+    scrape_interval: 15s
+
+  scrape_configs:
+    - job_name: "alloy"
+      static_configs:
+        - targets: ["alloy.observability:4317", "alloy.observability:4318"]
+  extraArgs:
+    web.enable-remote-write-receiver: ""

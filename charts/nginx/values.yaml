@@ -1,0 +1,29 @@
+# NGINX Ingress Controller parameters
+
+service:
+  enabled: true
+  type: NodePort # Change to NodePort if running locally
+  annotations: {}
+  ports:
+    http: 80
+    https: 443
+hostPort:
+  # -- Enable 'hostPort' or not
+  enabled: true
+  ports:
+    # -- 'hostPort' http port
+    http: 80
+    # -- 'hostPort' https port
+    https: 443
+
+# Set the number of replicas
+replicaCount: 1
+
+# Resource requests and limits
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "200m"
+    memory: "256Mi"

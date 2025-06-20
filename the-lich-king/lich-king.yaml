@@ -10,7 +10,7 @@ spec:
         repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
         revision: main
         files:
-          - path: "argocd-applications/*"
+          - path: "charts/*"
   template:
     metadata:
       name: '{{ trimSuffix ".yaml" .path.filename }}'
