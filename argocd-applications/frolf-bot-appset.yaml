@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: lich-king
+  name: frolf-bot-applications
   namespace: argocd
 spec:
   goTemplate: true
@@ -10,23 +10,25 @@ spec:
         repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
         revision: main
         files:
-          - path: "charts/*"
+          - path: "frolf-bot-app-manifests/*.yaml"
   template:
     metadata:
-      name: '{{ trimSuffix ".yaml" .path.filename }}'
+      name: 'frolf-bot-{{ trimSuffix ".yaml" .path.filename }}'
       labels:
-        type: applicationset-definition
+        app: frolf-bot
+        component: '{{ trimSuffix ".yaml" .path.filename }}'
+        type: application
     spec:
       project: frolf-bot
       source:
         repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
         targetRevision: main
-        path: "{{ .path.path }}"
+        path: frolf-bot-app-manifests
         directory:
           include: "{{ .path.filename }}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: default
+        namespace: frolf-bot
       syncPolicy:
         automated:
           prune: true

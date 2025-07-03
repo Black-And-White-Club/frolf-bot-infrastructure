@@ -19,7 +19,7 @@ spec:
       annotations:
         argocd.argoproj.io/sync-options: "{{ app.ssa }}"
     spec:
-      project: resume-portfolio
+      project: frolf-bot
       sources:
         - repoURL: "{{ app.helmRepo }}"
           chart: "{{ app.chart }}"

@@ -1,0 +1,26 @@
+# Local development values for PostgreSQL
+# Override for local development - no persistence, simple setup
+
+auth:
+  postgresPassword: "localdev123"
+  database: "frolfbot"
+
+primary:
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClass: "local-path"
+
+service:
+  type: ClusterIP
+  ports:
+    postgresql: 5432
+
+# Reduce resources for local development
+resources:
+  limits:
+    memory: 256Mi
+    cpu: 200m
+  requests:
+    memory: 128Mi
+    cpu: 100m

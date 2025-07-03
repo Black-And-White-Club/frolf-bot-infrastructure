@@ -1,0 +1,8 @@
+---
+# Master playbook to setup complete local development environment
+
+- import_playbook: setup-local-k8s.yml
+- import_playbook: setup-storage.yml
+- import_playbook: setup-monitoring.yml
+- import_playbook: setup-argocd.yml
+- import_playbook: deploy-frolf-bot.yml

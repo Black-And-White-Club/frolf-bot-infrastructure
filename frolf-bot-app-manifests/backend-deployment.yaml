@@ -1,0 +1,60 @@
+# Frolf Bot Backend Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frolf-bot-backend
+  namespace: frolf-bot
+  labels:
+    app: frolf-bot-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frolf-bot-backend
+  template:
+    metadata:
+      labels:
+        app: frolf-bot-backend
+    spec:
+      containers:
+        - name: backend
+          image: frolf-bot-backend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://postgres:localdev123@postgres-helm-postgresql.postgres.svc.cluster.local:5432/frolfbot?sslmode=disable"
+            - name: NATS_URL
+              value: "nats://nats-helm.nats.svc.cluster.local:4222"
+            - name: METRICS_ADDRESS
+              value: "0.0.0.0:8080"
+            - name: TEMPO_ENDPOINT
+              value: "tempo-service.monitoring.svc.cluster.local:4317"
+            - name: LOKI_URL
+              value: "http://loki-service.monitoring.svc.cluster.local:3100"
+            - name: ENV
+              value: "production"
+            - name: TEMPO_INSECURE
+              value: "true"
+            - name: TEMPO_SAMPLE_RATE
+              value: "0.1"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frolf-bot-backend
+  namespace: frolf-bot
+spec:
+  selector:
+    app: frolf-bot-backend
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP

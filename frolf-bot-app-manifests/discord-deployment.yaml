@@ -1,0 +1,70 @@
+# Frolf Bot Discord App Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frolf-bot-discord
+  namespace: frolf-bot
+  labels:
+    app: frolf-bot-discord
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frolf-bot-discord
+  template:
+    metadata:
+      labels:
+        app: frolf-bot-discord
+    spec:
+      containers:
+        - name: discord-bot
+          image: frolf-bot-discord:latest # Change this to your actual image
+          env:
+            - name: DISCORD_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: discord-secrets
+                  key: token
+            - name: DATABASE_URL
+              value: "" # Disable database config loading by not providing DB URL
+            - name: DISCORD_GUILD_ID
+              value: "123456789" # Placeholder guild ID for development
+            - name: BACKEND_URL
+              value: "http://frolf-bot-backend.frolf-bot.svc.cluster.local"
+            - name: NATS_URL
+              value: "nats://nats-helm.nats.svc.cluster.local:4222"
+            - name: LOG_LEVEL
+              value: "info"
+            - name: ENV
+              value: "development"
+            - name: ENVIRONMENT
+              value: "development"
+            - name: CONFIG_FILE
+              value: "" # Use environment variables instead of config file
+            # Observability configuration (set to in-cluster service URLs for local LGTM stack)
+            - name: LOKI_URL
+              value: "http://loki.monitoring.svc.cluster.local:3100"
+            - name: METRICS_ADDRESS
+              value: ":8081"
+            - name: METRICS_ENABLED
+              value: "false" # Disable metrics export for local development
+            # Disable OpenTelemetry metrics export completely
+            - name: OTEL_METRICS_EXPORTER
+              value: "none"
+            - name: OTEL_SDK_DISABLED
+              value: "true" # Completely disable OpenTelemetry SDK
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "" # Remove any default OTLP endpoint
+            - name: TEMPO_ENDPOINT
+              value: "tempo.monitoring.svc.cluster.local:4317"
+            - name: TEMPO_INSECURE
+              value: "true"
+            - name: TEMPO_SAMPLE_RATE
+              value: "0.1"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"

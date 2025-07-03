@@ -25,6 +25,12 @@ loki:
 
 deploymentMode: SingleBinary
 
+# Disable memcached caches for local development to reduce memory usage
+chunksCache:
+  enabled: false
+resultsCache:
+  enabled: false
+
 ui:
   enabled: true
 singleBinary:

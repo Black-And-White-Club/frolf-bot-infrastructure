@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coredns
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: coredns-debug
+  template:
+    metadata:
+      labels:
+        app: coredns-debug
+    spec:
+      containers:
+        - name: debug
+          image: busybox
+          command: ["sleep", "3600"]
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"

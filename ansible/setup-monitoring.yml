@@ -1,0 +1,85 @@
+---
+# Setup monitoring stack
+
+- name: Setup Monitoring Stack
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Install Prometheus Stack
+      kubernetes.core.helm:
+        name: prometheus
+        chart_ref: prometheus-community/kube-prometheus-stack
+        release_namespace: monitoring
+        create_namespace: true
+        values:
+          grafana:
+            persistence:
+              enabled: false
+            adminPassword: admin
+            service:
+              type: NodePort
+              nodePort: 30000
+            # Fix datasource conflict - use sidecar with proper config
+            sidecar:
+              datasources:
+                enabled: true
+                defaultDatasourceEnabled: true
+                # Ensure only one default datasource
+                additionalDataSources: []
+              dashboards:
+                enabled: true
+            # Disable conflicting plugins that cause signature issues
+            plugins: []
+          prometheus:
+            prometheusSpec:
+              storageSpec:
+                volumeClaimTemplate:
+                  spec:
+                    accessModes: ["ReadWriteOnce"]
+                    resources:
+                      requests:
+                        storage: 5Gi
+                    storageClassName: local-path
+          alertmanager:
+            enabled: false
+
+    - name: Install Loki Stack
+      kubernetes.core.helm:
+        name: loki
+        chart_ref: grafana/loki-stack
+        release_namespace: monitoring
+        values:
+          loki:
+            persistence:
+              enabled: true
+              size: 5Gi
+              storageClassName: local-path
+          promtail:
+            enabled: true
+          grafana:
+            enabled: false
+
+    - name: Wait for Grafana to be ready
+      k8s_info:
+        api_version: v1
+        kind: Pod
+        namespace: monitoring
+        label_selectors:
+          - app.kubernetes.io/name=grafana
+          - app.kubernetes.io/instance=prometheus
+        wait: true
+        wait_condition:
+          type: Ready
+          status: "True"
+        wait_timeout: 600
+      register: grafana_pods
+      retries: 3
+      delay: 30
+
+    - name: Display monitoring setup completion
+      debug:
+        msg: |
+          ✅ Monitoring stack installed successfully!
+          🌐 Grafana available at: http://localhost:30000 (admin/admin)
