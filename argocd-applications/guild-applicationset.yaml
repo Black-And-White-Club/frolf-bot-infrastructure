@@ -4,14 +4,8 @@ metadata:
   name: frolf-bot-guilds
   namespace: argocd
 spec:
+  goTemplate: true
   generators:
-    # Git file generator - reads guild configurations from a git file
-    - git:
-        repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
-        revision: HEAD
-        files:
-          - path: "multi-tenant/guilds/*.yaml"
-
     # Merge generator - combine file content with static values
     - merge:
         mergeKeys:
@@ -28,29 +22,29 @@ spec:
 
   template:
     metadata:
-      name: "guild-{{guild_id}}"
+      name: "guild-{{ .guild_id }}"
       namespace: argocd
       labels:
-        guild-id: "{{guild_id}}"
-        tier: "{{tier}}"
+        guild-id: "{{ .guild_id }}"
+        tier: "{{ .tier }}"
     spec:
       project: frolf-bot
       source:
         repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
         targetRevision: HEAD
-        path: multi-tenant/kustomize/{{tier}}
+        path: multi-tenant/kustomize/{{ .tier }}
         kustomize:
           namePrefix: ""
           nameSuffix: ""
           commonLabels:
-            guild-id: "{{guild_id}}"
-            tier: "{{tier}}"
+            guild-id: "{{ .guild_id }}"
+            tier: "{{ .tier }}"
           patchesStrategicMerge:
             - |-
               apiVersion: v1
               kind: Namespace
               metadata:
-                name: guild-{{guild_id}}
+                name: guild-{{ .guild_id }}
           patches:
             # Patch all deployments to use guild-specific values
             - target:
@@ -58,25 +52,25 @@ spec:
               patch: |-
                 - op: replace
                   path: /metadata/namespace
-                  value: guild-{{guild_id}}
+                  value: guild-{{ .guild_id }}
                 - op: replace
                   path: /spec/template/spec/containers/0/env
                   value:
                   - name: GUILD_ID
-                    value: "{{guild_id}}"
+                    value: "{{ .guild_id }}"
                   - name: DISCORD_TOKEN
                     valueFrom:
                       secretKeyRef:
-                        name: discord-secrets-{{guild_id}}
+                        name: discord-secrets-{{ .guild_id }}
                         key: token
                   - name: BACKEND_URL
-                    value: "http://backend.guild-{{guild_id}}.svc.cluster.local"
+                    value: "http://backend.guild-{{ .guild_id }}.svc.cluster.local"
                   - name: DATABASE_URL
-                    value: "postgresql://postgres:localdev123@postgres-postgresql.postgres.svc.cluster.local:5432/guild_{{guild_id}}"
+                    value: "postgresql://postgres:localdev123@postgres-postgresql.postgres.svc.cluster.local:5432/guild_{{ .guild_id }}"
                   - name: NATS_URL
                     value: "nats://nats.nats.svc.cluster.local:4222"
                   - name: NATS_SUBJECT_PREFIX
-                    value: "guild.{{guild_id}}"
+                    value: "guild.{{ .guild_id }}"
             # Apply resource limits based on tier
             - target:
                 kind: Deployment
@@ -86,11 +80,11 @@ spec:
                   path: /spec/template/spec/containers/0/resources
                   value:
                     requests:
-                      memory: "{{discord_memory_request}}"
-                      cpu: "{{discord_cpu_request}}"
+                      memory: "{{ .discord_memory_request }}"
+                      cpu: "{{ .discord_cpu_request }}"
                     limits:
-                      memory: "{{discord_memory_limit}}"
-                      cpu: "{{discord_cpu_limit}}"
+                      memory: "{{ .discord_memory_limit }}"
+                      cpu: "{{ .discord_cpu_limit }}"
             - target:
                 kind: Deployment
                 name: backend
@@ -99,14 +93,14 @@ spec:
                   path: /spec/template/spec/containers/0/resources
                   value:
                     requests:
-                      memory: "{{backend_memory_request}}"
-                      cpu: "{{backend_cpu_request}}"
+                      memory: "{{ .backend_memory_request }}"
+                      cpu: "{{ .backend_cpu_request }}"
                     limits:
-                      memory: "{{backend_memory_limit}}"
-                      cpu: "{{backend_cpu_limit}}"
+                      memory: "{{ .backend_memory_limit }}"
+                      cpu: "{{ .backend_cpu_limit }}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: guild-{{guild_id}}
+        namespace: guild-{{ .guild_id }}
       syncPolicy:
         automated:
           prune: true
