@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-image-updater
+  namespace: argocd
+spec:
+  project: frolf-bot
+  source:
+    repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure
+    path: charts/argocd-image-updater
+    targetRevision: main
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

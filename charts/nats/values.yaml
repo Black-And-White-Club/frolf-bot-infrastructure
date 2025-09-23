@@ -1,9 +1,6 @@
 config:
   cluster:
-    enabled: true # Enable clustering
-    port: 6222
-    replicas: 2 # Must be 2 or higher when JetStream is enabled
-
+    enabled: false # Enable clustering
   jetstream:
     enabled: true # Enable JetStream
     fileStore:
@@ -11,20 +8,20 @@ config:
       dir: /data
       pvc:
         enabled: true
-        size: 10Gi
-        storageClassName: "" # Specify your storage class if needed
-
+        size: 2Gi
+        storageClassName: local-path # Specify your storage class if needed
   nats:
     port: 4222 # Default NATS port
     tls:
       enabled: false # Set to true if you want to enable TLS
 
-  # Enable ingress for NATS
-  ingress:
-    enabled: true # Set to true to enable ingress
-    hosts:
-      - nats.local # Change this to your desired hostname
-      - path: /
-        pathType: Prefix # Use Prefix for path matching
-    annotations:
-      kubernetes.io/ingress.class: nginx # Specify the ingress class
+resources:
+  limits:
+    memory: 128Mi
+    cpu: 100m
+  requests:
+    memory: 64Mi
+    cpu: 50m
+
+service:
+  type: ClusterIP

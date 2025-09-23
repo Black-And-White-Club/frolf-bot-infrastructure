@@ -11,10 +11,3 @@ module "artifact_registry" {
   project_id = var.project_id
   region     = var.region
 }
-
-module "cloud_engine" {
-  source     = "./modules/cloud-engine"
-  project_id = var.project_id
-  region     = var.region
-  zone       = var.zone
-}

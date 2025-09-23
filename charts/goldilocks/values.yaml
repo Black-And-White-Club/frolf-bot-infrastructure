@@ -1,0 +1,25 @@
+# Minimal values for Goldilocks in local dev
+controller:
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+# Enable dashboard service (ClusterIP)
+dashboard:
+  replicaCount: 1
+  service:
+    type: ClusterIP
+
+# Disable PSPs and network policies for local simplicity
+podSecurityPolicy:
+  enabled: false
+networkPolicy:
+  enabled: false
+
+vpa:
+  enabled: true

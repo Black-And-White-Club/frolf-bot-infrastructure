@@ -40,21 +40,12 @@ alloy:
         forward_to = [loki.write.default.receiver]
       }
 
-      // Add proper time handling for Loki logs
-      loki.process "handle_timestamps" {
-        stage.timestamp {
-          source = "time"
-          format = "RFC3339"
-          fallback_formats = ["RFC3339Nano", "Unix"]
-          location = "UTC"
-        }
-        forward_to = [loki.write.default.receiver]
-      }
+      // Simplified: forward logs directly to Loki for v1.10 compatibility
 
       // Batch processor for logs
       otelcol.processor.batch "logs" {
-        timeout = "5s"
-        send_batch_size = 100
+        timeout = "30s"  // Send logs to Loki every 30 seconds or when batch size is reached
+        send_batch_size = 1000
         output {
           logs = [otelcol.exporter.loki.logs.input]
         }
@@ -112,19 +103,19 @@ alloy:
 
       // --- Loki Log Scraping ---
 
-      // Scrape logs from Kubernetes containers with rate limiting
+      // Scrape logs from Kubernetes containers with filtering
       loki.source.kubernetes "pods" {
         targets    = discovery.kubernetes.pods.targets
-        forward_to = [loki.process.handle_timestamps.receiver]
+        forward_to = [loki.write.default.receiver]
       }
 
       // Define where to send Loki logs
       loki.write "default" {
         endpoint {
-          url = "http://loki-gateway/loki/api/v1/push"
+          url = "http://loki:3100/loki/api/v1/push"
           tenant_id = "1"
         }
         external_labels = {
-          cluster = " colima",
+          cluster = "colima",
         }
       }

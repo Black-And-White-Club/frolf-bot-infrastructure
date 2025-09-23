@@ -2,7 +2,9 @@
 # Override for local development - no persistence, simple setup
 
 auth:
-  postgresPassword: "localdev123"
+  username: "local"
+  password: "local"
+  postgresPassword: "local"
   database: "frolfbot"
 
 primary:

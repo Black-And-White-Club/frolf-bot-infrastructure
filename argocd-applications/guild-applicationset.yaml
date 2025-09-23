@@ -7,7 +7,7 @@ spec:
   generators:
     # Git file generator - reads guild configurations from a git file
     - git:
-        repoURL: https://github.com/jbeaurivage/frolf-bot-infrastructure # Replace with your actual repo URL
+        repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
         revision: HEAD
         files:
           - path: "multi-tenant/guilds/*.yaml"
@@ -18,7 +18,7 @@ spec:
           - guild_id
         generators:
           - git:
-              repoURL: https://github.com/jbeaurivage/frolf-bot-infrastructure # Replace with your actual repo URL
+              repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
               revision: HEAD
               files:
                 - path: "multi-tenant/guilds/*.yaml"
@@ -36,7 +36,7 @@ spec:
     spec:
       project: frolf-bot
       source:
-        repoURL: https://github.com/jbeaurivage/frolf-bot-infrastructure # Replace with your actual repo URL
+        repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
         targetRevision: HEAD
         path: multi-tenant/kustomize/{{tier}}
         kustomize:

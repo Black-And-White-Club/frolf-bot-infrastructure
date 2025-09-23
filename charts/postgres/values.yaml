@@ -1,10 +1,28 @@
-primary:
-  service:
-    ## Set the service type to NodePort
-    type: ClusterIP
+# Local development values for PostgreSQL
+# Override for local development - no persistence, simple setup
 
 auth:
-  database: tcr-bot
-  username: local
-  password: local
-  postgresPassword: admin
+  username: "local"
+  password: "local"
+  postgresPassword: "local"
+  database: "frolfbot"
+
+primary:
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClass: "local-path"
+
+service:
+  type: ClusterIP
+  ports:
+    postgresql: 5432
+
+# Reduce resources for local development
+resources:
+  limits:
+    memory: 256Mi
+    cpu: 200m
+  requests:
+    memory: 128Mi
+    cpu: 100m

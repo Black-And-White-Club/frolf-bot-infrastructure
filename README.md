@@ -1,8 +1,36 @@
 # Frolf Bot Infrastructure
 
-This repository contains the infrastructure as code and Kubernetes manifests for the Frolf Bot application.
+A scalable, multi-tenant Discord bot infrastructure for disc golf event management with GitOps, monitoring, and live development capabilities.
 
-## Repository Structure
+## 🚀 Quick Start for New Developers
+
+**Just want to get started? Run this:**
+
+```bash
+git clone https://github.com/YOUR_ORG/frolf-bot-infrastructure.git
+cd frolf-bot-infrastructure
+make onboard  # Interactive setup guide
+```
+
+**For experienced developers:**
+
+```bash
+git clone https://github.com/YOUR_ORG/frolf-bot-infrastructure.git
+cd frolf-bot-infrastructure
+make clone-repos && make bootstrap && make dev
+```
+
+## 🎯 What You Get
+
+- **🐳 Complete Kubernetes Environment**: Local cluster with all services
+- **🚀 Live Development**: Tilt-powered hot reload for Go applications  
+- **📊 Full Observability**: Grafana, Prometheus, Loki, Tempo monitoring
+- **🔄 GitOps Ready**: ArgoCD for continuous deployment
+- **🏢 Multi-tenant**: Support for multiple Discord guilds
+- **📱 Discord Integration**: Full Discord bot with slash commands
+- **🎮 Game Management**: Leaderboards, scoring, user management
+
+## 📂 Architecture Overview
 
 ```
 .
