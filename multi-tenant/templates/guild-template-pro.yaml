@@ -1,0 +1,138 @@
+# Pro Tier Guild Template  
+# Dedicated PostgreSQL, shared NATS, enhanced resources
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discord-bot
+  namespace: guild-${GUILD_ID}
+  labels:
+    app: frolf-bot-discord
+    guild-id: "${GUILD_ID}"
+    tier: pro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frolf-bot-discord
+      guild-id: "${GUILD_ID}"
+  template:
+    metadata:
+      labels:
+        app: frolf-bot-discord
+        guild-id: "${GUILD_ID}"
+        tier: pro
+    spec:
+      containers:
+      - name: discord-bot
+        image: frolf-bot-discord:latest
+        env:
+        - name: DISCORD_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: discord-secrets
+              key: token
+        - name: GUILD_ID
+          value: "${GUILD_ID}"
+        - name: BACKEND_URL
+          value: "http://backend.guild-${GUILD_ID}.svc.cluster.local"
+        - name: DATABASE_URL
+          value: "postgresql://postgres:localdev123@postgres-${GUILD_ID}.guild-${GUILD_ID}.svc.cluster.local:5432/frolfbot"
+        - name: NATS_URL
+          value: "nats://nats.nats.svc.cluster.local:4222"
+        - name: NATS_SUBJECT_PREFIX
+          value: "guild.${GUILD_ID}"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: guild-${GUILD_ID}
+  labels:
+    app: frolf-bot-backend
+    guild-id: "${GUILD_ID}"
+    tier: pro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frolf-bot-backend
+      guild-id: "${GUILD_ID}"
+  template:
+    metadata:
+      labels:
+        app: frolf-bot-backend
+        guild-id: "${GUILD_ID}"
+        tier: pro
+    spec:
+      containers:
+      - name: backend
+        image: frolf-bot-backend:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: GUILD_ID
+          value: "${GUILD_ID}"
+        - name: DATABASE_URL
+          value: "postgresql://postgres:localdev123@postgres-${GUILD_ID}.guild-${GUILD_ID}.svc.cluster.local:5432/frolfbot"
+        - name: NATS_URL
+          value: "nats://nats.nats.svc.cluster.local:4222"
+        - name: NATS_SUBJECT_PREFIX
+          value: "guild.${GUILD_ID}"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: guild-${GUILD_ID}
+  labels:
+    guild-id: "${GUILD_ID}"
+    tier: pro
+spec:
+  selector:
+    app: frolf-bot-backend
+    guild-id: "${GUILD_ID}"
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: ClusterIP
+---
+# Dedicated PostgreSQL for Pro tier
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: postgres-${GUILD_ID}
+  namespace: guild-${GUILD_ID}
+spec:
+  chart: postgresql
+  repo: https://charts.bitnami.com/bitnami
+  targetNamespace: guild-${GUILD_ID}
+  valuesContent: |-
+    auth:
+      postgresPassword: "localdev123"
+      database: "frolfbot"
+    primary:
+      persistence:
+        enabled: true
+        size: 5Gi
+        storageClass: "local-path"
+    resources:
+      limits:
+        memory: 512Mi
+        cpu: 500m
+      requests:
+        memory: 256Mi
+        cpu: 250m

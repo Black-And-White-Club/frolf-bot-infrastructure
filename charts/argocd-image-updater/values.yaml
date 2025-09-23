@@ -1,0 +1,16 @@
+rbac:
+  enabled: true
+config:
+  argocd:
+    serverAddress: "argocd-server.argocd.svc.cluster.local"
+    tokenSecretName: "argocd-image-updater-secret"
+  gitCommitUser: "argocd-image-updater"
+  gitCommitMail: "argocd-image-updater@noreply.com"
+  registries:
+    - name: Google Artifact Registry
+      api_url: https://us-central1-docker.pkg.dev
+      prefix: us-central1-docker.pkg.dev
+      ping: yes
+      credentials: secret:argocd/argocd-image-updater-secret#registry_key
+serviceAccount:
+  create: true

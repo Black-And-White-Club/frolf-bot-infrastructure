@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: lich-king
+  name: cluster-resources
   namespace: argocd
 spec:
   goTemplate: true
@@ -10,18 +10,19 @@ spec:
         repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
         revision: main
         files:
-          - path: "charts/*"
+          - path: "cluster-resources/*.yaml"
   template:
     metadata:
-      name: '{{ trimSuffix ".yaml" .path.filename }}'
+      name: 'cluster-{{ trimSuffix ".yaml" .path.filename }}'
       labels:
-        type: applicationset-definition
+        app: '{{ trimSuffix ".yaml" .path.filename }}'
+        type: cluster-resource
     spec:
       project: frolf-bot
       source:
         repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
         targetRevision: main
-        path: "{{ .path.path }}"
+        path: cluster-resources
         directory:
           include: "{{ .path.filename }}"
       destination:

@@ -19,7 +19,7 @@ spec:
       annotations:
         argocd.argoproj.io/sync-options: "{{ app.ssa }}"
     spec:
-      project: resume-portfolio
+      project: frolf-bot
       sources:
         - repoURL: "{{ app.helmRepo }}"
           chart: "{{ app.chart }}"
@@ -33,7 +33,9 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{ app.namespace }}"
-      # syncPolicy:
-      #   automated:
-      #     prune: true
-      #     selfHeal: true
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

@@ -1,0 +1,86 @@
+---
+# Setup ArgoCD
+
+- name: Setup ArgoCD
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Install ArgoCD
+      kubernetes.core.helm:
+        name: argocd
+        chart_ref: argo/argo-cd
+        release_namespace: argocd
+        create_namespace: true
+        values:
+          server:
+            service:
+              type: NodePort
+              nodePortHttp: 30080
+            insecure: true
+            extraArgs:
+              - --insecure
+          configs:
+            params:
+              server.insecure: true
+
+    - name: Wait for ArgoCD server to be ready
+      k8s_info:
+        api_version: v1
+        kind: Pod
+        namespace: argocd
+        label_selectors:
+          - app.kubernetes.io/name=argocd-server
+        wait: true
+        wait_condition:
+          type: Ready
+          status: "True"
+        wait_timeout: 300
+
+    - name: Get ArgoCD initial admin password
+      k8s_info:
+        api_version: v1
+        kind: Secret
+        name: argocd-initial-admin-secret
+        namespace: argocd
+      register: argocd_secret
+
+    - name: Decode ArgoCD password
+      set_fact:
+        argocd_password: "{{ argocd_secret.resources[0].data.password | b64decode }}"
+      when: argocd_secret.resources | length > 0
+
+    - name: Create frolf-bot ArgoCD project
+      k8s:
+        definition:
+          apiVersion: argoproj.io/v1alpha1
+          kind: AppProject
+          metadata:
+            name: frolf-bot
+            namespace: argocd
+          spec:
+            description: Frolf Bot Project
+            sourceRepos:
+              - "https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git"
+              - "https://charts.bitnami.com/bitnami"
+              - "https://nats-io.github.io/k8s/helm/charts"
+              - "https://prometheus-community.github.io/helm-charts"
+              - "https://grafana.github.io/helm-charts"
+            destinations:
+              - namespace: "*"
+                server: https://kubernetes.default.svc
+            clusterResourceWhitelist:
+              - group: "*"
+                kind: "*"
+            namespaceResourceWhitelist:
+              - group: "*"
+                kind: "*"
+
+    - name: Display ArgoCD setup completion
+      debug:
+        msg: |
+          ✅ ArgoCD installed successfully!
+          🌐 ArgoCD UI: http://localhost:30080
+          👤 Username: admin
+          🔑 Password: {{ argocd_password | default('Check manually with: kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d') }}

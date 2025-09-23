@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: sysctl-inotify
+  namespace: kube-system
+  labels:
+    app: sysctl-inotify
+spec:
+  selector:
+    matchLabels:
+      app: sysctl-inotify
+  template:
+    metadata:
+      labels:
+        app: sysctl-inotify
+    spec:
+      hostPID: true
+      tolerations:
+        - key: "node-role.kubernetes.io/master"
+          operator: "Exists"
+          effect: "NoSchedule"
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"
+      containers:
+        - name: sysctl
+          image: busybox:1.36
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_ADMIN", "SYS_RESOURCE"]
+          command: ["sh", "-c"]
+          args:
+            - |
+              echo "Setting inotify limits on node...";
+              sysctl -w fs.inotify.max_user_watches=1048576 || true;
+              sysctl -w fs.inotify.max_user_instances=2048 || true;
+              sysctl -w fs.inotify.max_queued_events=65536 || true;
+              echo "Current values:";
+              sysctl fs.inotify.max_user_watches fs.inotify.max_user_instances fs.inotify.max_queued_events || true;
+              # Stay alive to keep pod running and re-apply after node restarts if restarted by controller
+              sleep 365d;
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+      restartPolicy: Always

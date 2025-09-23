@@ -1,0 +1,81 @@
+---
+# Deploy Frolf Bot application
+
+- name: Deploy Frolf Bot Application
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Deploy PostgreSQL
+      kubernetes.core.helm:
+        name: postgres
+        chart_ref: bitnami/postgresql
+        release_namespace: frolf-bot
+        values_files:
+          - "{{ playbook_dir }}/../local-dev/values/postgres-local.yaml"
+
+    - name: Deploy NATS
+      kubernetes.core.helm:
+        name: nats
+        chart_ref: nats/nats
+        release_namespace: frolf-bot
+        values_files:
+          - "{{ playbook_dir }}/../local-dev/values/nats-local.yaml"
+
+    - name: Apply custom manifests
+      k8s:
+        src: "{{ item }}"
+        namespace: frolf-bot
+      with_fileglob:
+        - "{{ playbook_dir }}/../frolf-bot-app-manifests/*.yaml"
+
+    - name: Wait for PostgreSQL to be ready
+      k8s_info:
+        api_version: v1
+        kind: Pod
+        namespace: frolf-bot
+        label_selectors:
+          - app.kubernetes.io/name=postgresql
+        wait: true
+        wait_condition:
+          type: Ready
+          status: "True"
+        wait_timeout: 300
+
+    - name: Wait for NATS to be ready
+      k8s_info:
+        api_version: v1
+        kind: Pod
+        namespace: frolf-bot
+        label_selectors:
+          - app.kubernetes.io/name=nats
+        wait: true
+        wait_condition:
+          type: Ready
+          status: "True"
+        wait_timeout: 300
+
+    - name: Get service information
+      k8s_info:
+        api_version: v1
+        kind: Service
+        namespace: frolf-bot
+      register: services
+
+    - name: Display deployment completion
+      debug:
+        msg: |
+          ✅ Frolf Bot deployed successfully!
+
+          📋 Connection Information:
+          PostgreSQL: postgres-postgresql.frolf-bot.svc.cluster.local:5432
+            Database: frolfbot
+            Username: postgres
+            Password: localdev123
+
+          NATS: nats.frolf-bot.svc.cluster.local:4222
+
+          🔍 Check status with:
+            kubectl get pods -n frolf-bot
+            kubectl get svc -n frolf-bot

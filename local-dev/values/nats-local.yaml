@@ -1,19 +1,19 @@
 config:
   cluster:
-    enabled: false # Enable clustering
+    enabled: false
   jetstream:
-    enabled: true # Enable JetStream
+    enabled: true
     fileStore:
       enabled: true
       dir: /data
       pvc:
         enabled: true
         size: 2Gi
-        storageClassName: local-path # Specify your storage class if needed
+        storageClassName: local-path
   nats:
-    port: 4222 # Default NATS port
+    port: 4222
     tls:
-      enabled: false # Set to true if you want to enable TLS
+      enabled: false
 
 resources:
   limits:

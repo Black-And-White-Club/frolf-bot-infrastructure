@@ -1,6 +1,8 @@
 loki:
   commonConfig:
     replication_factor: 1
+  memberlist:
+    join_members: []
   schemaConfig:
     configs:
       - from: "2024-04-01"
@@ -13,7 +15,8 @@ loki:
   storage:
     type: filesystem
     filesystem:
-      directory: /var/loki
+      chunks_directory: /var/loki/chunks
+      rules_directory: /var/loki/rules
 
   pattern_ingester:
     enabled: true
@@ -25,13 +28,19 @@ loki:
 
 deploymentMode: SingleBinary
 
+# Disable memcached caches for local development to reduce memory usage
+chunksCache:
+  enabled: false
+resultsCache:
+  enabled: false
+
 ui:
   enabled: true
 singleBinary:
   replicas: 1
   persistence:
     enabled: true
-    storageClass: "standard" # or your actual local storage class
+    storageClass: "local-path" # Changed from "standard" to "local-path"
     size: 10Gi
 
 # Zero out replica counts of other modes (not needed with singleBinary, but safe)

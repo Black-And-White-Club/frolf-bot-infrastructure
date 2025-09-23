@@ -3,4 +3,4 @@ kind: StorageClass
 metadata:
   name: standard
 provisioner: rancher.io/local-path
-volumeBindingMode: Immediate
+volumeBindingMode: WaitForFirstConsumer

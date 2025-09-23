@@ -1,0 +1,21 @@
+# Postgres for Frolf Bot (isolated)
+auth:
+  username: local
+  password: local
+  postgresPassword: local
+  database: frolfbot
+
+primary:
+  persistence:
+    enabled: true
+    storageClass: "-"
+    existingClaim: frolf-db-pvc
+    size: 10Gi
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi

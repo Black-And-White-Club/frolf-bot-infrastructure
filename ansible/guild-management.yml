@@ -1,0 +1,109 @@
+---
+- name: Manage Frolf Bot Guilds
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    guild_configs_path: "../multi-tenant/guilds"
+
+  tasks:
+    - name: Validate required variables
+      fail:
+        msg: "guild_id is required"
+      when: guild_id is not defined
+
+    - name: Validate required variables for create action
+      fail:
+        msg: "tier is required for create action"
+      when:
+        - action == "create"
+        - tier is not defined
+
+    - name: Set tier defaults
+      set_fact:
+        tier: "{{ tier | default('free') }}"
+
+    - name: Set resource defaults based on tier
+      set_fact:
+        resource_config:
+          free:
+            discord_memory_request: "64Mi"
+            discord_memory_limit: "128Mi"
+            discord_cpu_request: "50m"
+            discord_cpu_limit: "100m"
+            backend_memory_request: "128Mi"
+            backend_memory_limit: "256Mi"
+            backend_cpu_request: "100m"
+            backend_cpu_limit: "200m"
+          pro:
+            discord_memory_request: "128Mi"
+            discord_memory_limit: "256Mi"
+            discord_cpu_request: "100m"
+            discord_cpu_limit: "200m"
+            backend_memory_request: "256Mi"
+            backend_memory_limit: "512Mi"
+            backend_cpu_request: "200m"
+            backend_cpu_limit: "500m"
+
+    - name: Create guild configuration file
+      template:
+        src: guild-config.yaml.j2
+        dest: "{{ guild_configs_path }}/guild-{{ guild_id }}.yaml"
+        mode: "0644"
+      when: action == "create"
+
+    - name: Remove guild configuration file
+      file:
+        path: "{{ guild_configs_path }}/guild-{{ guild_id }}.yaml"
+        state: absent
+      when: action == "delete"
+
+    - name: List existing guild configurations
+      find:
+        paths: "{{ guild_configs_path }}"
+        patterns: "guild-*.yaml"
+      register: guild_files
+      when: action == "list"
+
+    - name: Display existing guilds
+      debug:
+        msg: "Found guild: {{ item | basename | regex_replace('^guild-(.+)\\.yaml$', '\\1') }}"
+      loop: "{{ guild_files.files | map(attribute='path') | list }}"
+      when: action == "list"
+
+    - name: Check if guild exists
+      stat:
+        path: "{{ guild_configs_path }}/guild-{{ guild_id }}.yaml"
+      register: guild_file
+      when: action == "status"
+
+    - name: Display guild status
+      debug:
+        msg: "Guild {{ guild_id }} {{ 'exists' if guild_file.stat.exists else 'does not exist' }}"
+      when: action == "status"
+
+    - name: Read guild configuration
+      slurp:
+        src: "{{ guild_configs_path }}/guild-{{ guild_id }}.yaml"
+      register: guild_config_content
+      when:
+        - action == "status"
+        - guild_file.stat.exists
+
+    - name: Display guild configuration
+      debug:
+        msg: "{{ guild_config_content.content | b64decode | from_yaml }}"
+      when:
+        - action == "status"
+        - guild_file.stat.exists
+
+    - name: Commit and push guild configuration changes
+      shell: |
+        cd {{ guild_configs_path }}/..
+        git add guilds/
+        git commit -m "{{ action | title }} guild {{ guild_id }}" || true
+        git push || true
+      when:
+        - action in ["create", "delete"]
+        - auto_commit | default(false) | bool
+      ignore_errors: true

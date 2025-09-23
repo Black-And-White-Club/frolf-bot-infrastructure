@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: guild-placeholder # Will be patched by ApplicationSet
+  labels:
+    app.kubernetes.io/managed-by: argocd
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discord-bot
+  namespace: guild-placeholder
+  labels:
+    app: frolf-bot-discord
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frolf-bot-discord
+  template:
+    metadata:
+      labels:
+        app: frolf-bot-discord
+    spec:
+      containers:
+        - name: discord-bot
+          image: frolf-bot-discord:latest
+          env:
+            - name: GUILD_ID
+              value: "placeholder"
+            - name: DISCORD_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: discord-secrets-placeholder
+                  key: token
+            - name: BACKEND_URL
+              value: "http://backend.guild-placeholder.svc.cluster.local"
+            - name: DATABASE_URL
+              value: "postgresql://postgres:localdev123@postgres-postgresql.postgres.svc.cluster.local:5432/guild_placeholder"
+            - name: NATS_URL
+              value: "nats://nats.nats.svc.cluster.local:4222"
+            - name: NATS_SUBJECT_PREFIX
+              value: "guild.placeholder"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: guild-placeholder
+  labels:
+    app: frolf-bot-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frolf-bot-backend
+  template:
+    metadata:
+      labels:
+        app: frolf-bot-backend
+    spec:
+      containers:
+        - name: backend
+          image: frolf-bot-backend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: GUILD_ID
+              value: "placeholder"
+            - name: DATABASE_URL
+              value: "postgresql://postgres:localdev123@postgres-postgresql.postgres.svc.cluster.local:5432/guild_placeholder"
+            - name: NATS_URL
+              value: "nats://nats.nats.svc.cluster.local:4222"
+            - name: NATS_SUBJECT_PREFIX
+              value: "guild.placeholder"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: guild-placeholder
+spec:
+  selector:
+    app: frolf-bot-backend
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: discord-secrets-placeholder
+  namespace: guild-placeholder
+type: Opaque
+stringData:
+  token: "REPLACE_WITH_GUILD_DISCORD_TOKEN" # Must be manually updated per guild
