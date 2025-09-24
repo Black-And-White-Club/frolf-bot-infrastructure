@@ -8,6 +8,11 @@ serviceAccount:
 
 controller:
   hostNetwork: true
+  extraEnvVars:
+    - name: KUBERNETES_SERVICE_HOST
+      value: "127.0.0.1"
+    - name: KUBERNETES_SERVICE_PORT
+      value: "6443"
 
 updateStatus: false
 

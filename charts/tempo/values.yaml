@@ -2,8 +2,8 @@ replicaCount: 1
 
 tempo:
   server:
-    httpListenAddress: "0.0.0.0"
-    grpcListenAddress: "0.0.0.0"
+    http_listen_address: "0.0.0.0"
+    grpc_listen_address: "0.0.0.0"
   persistence:
     enabled: true
     existingClaim: tempo-frolf-pvc

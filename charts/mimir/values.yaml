@@ -38,7 +38,7 @@ distributor:
       cpu: 200m
       memory: 1Gi
 ingester:
-  replicas: 0
+  replicas: 1
 querier:
   replicas: 1
   resources:
