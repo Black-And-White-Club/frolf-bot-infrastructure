@@ -34,6 +34,9 @@ distributor:
       memory: 1Gi
 ingester:
   replicas: 1
+  # Disable zone-aware replication for single node
+  zoneAwareReplication:
+    enabled: false
   resources:
     requests:
       cpu: 100m
@@ -81,10 +84,13 @@ ruler:
 
 # Disable stateful components that require PVCs for minimal setup
 alertmanager:
-  replicas: 0
+  enabled: false
+
+compactor:
+  enabled: false
 
 store_gateway:
-  replicas: 0
+  enabled: false
 
 # Use local filesystem / small PVC for a single-node lab
 persistence:
