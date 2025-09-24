@@ -4,6 +4,9 @@ replicaCount: 1
 # Configure for single-node deployment
 mimir:
   structuredConfig:
+    ingester:
+      ring:
+        replication_factor: 1
     blocks_storage:
       backend: filesystem
       filesystem:
@@ -44,9 +47,10 @@ ingester:
     limits:
       cpu: 200m
       memory: 1Gi
-  persistentVolume:
+  persistence:
     enabled: true
-    existingClaim: mimir-frolf-pvc
+    claimName: mimir-frolf-pvc
+    storageClass: ""
 querier:
   replicas: 1
   resources:
