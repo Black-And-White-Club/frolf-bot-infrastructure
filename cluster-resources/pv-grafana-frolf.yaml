@@ -24,7 +24,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: grafana-frolf-pvc
-  namespace: frolf-prometheus
+  namespace: observability
 spec:
   accessModes:
     - ReadWriteOnce
