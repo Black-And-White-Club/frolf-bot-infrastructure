@@ -5,6 +5,7 @@ rbac:
 
 serviceAccount:
   create: true
+  automountServiceAccountToken: true
 
 controller:
   hostNetwork: false
