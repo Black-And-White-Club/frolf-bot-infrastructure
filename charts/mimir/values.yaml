@@ -7,15 +7,15 @@ mimir:
     blocks_storage:
       backend: filesystem
       filesystem:
-        dir: /data/blocks
+        dir: /mimir/blocks
     ruler_storage:
       backend: filesystem
       filesystem:
-        dir: /data/ruler
+        dir: /mimir/ruler
     alertmanager_storage:
       backend: filesystem
       filesystem:
-        dir: /data/alertmanager
+        dir: /mimir/alertmanager
     ingest_storage:
       enabled: false
 
