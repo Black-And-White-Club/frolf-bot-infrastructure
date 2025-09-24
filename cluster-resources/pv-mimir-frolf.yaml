@@ -8,7 +8,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
+  storageClassName: mimir-local
   local:
     path: /mnt/frolf_grafana/mimir
   nodeAffinity:
@@ -28,7 +28,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: ""
+  storageClassName: mimir-local
   resources:
     requests:
       storage: 10Gi
