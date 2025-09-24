@@ -3,9 +3,6 @@ adminUser: admin
 # For quick testing you can set this, but replace for production.
 adminPassword: changeme
 
-service:
-  type: LoadBalancer # or NodePort; on GCE you can use LoadBalancer
-
 persistence:
   enabled: true
   existingClaim: grafana-frolf-pvc
@@ -19,28 +16,19 @@ resources:
     cpu: 300m
     memory: 512Mi
 
-initContainers:
-  resources:
-    requests:
-      cpu: 10m
-      memory: 32Mi
-    limits:
-      cpu: 50m
-      memory: 64Mi
-
 datasources:
   datasources.yaml:
     apiVersion: 1
     datasources:
       - name: Mimir
-        type: prometheus
+        type: mimir
         access: proxy
-        url: http://mimir.observability.svc.cluster.local:8080 # adjust port to your Mimir service
+        url: http://mimir-query-frontend.observability.svc.cluster.local:8080
       - name: Loki
         type: loki
         access: proxy
-        url: http://loki.observability.svc.cluster.local:3100
+        url: http://loki-gateway.observability.svc.cluster.local
       - name: Tempo
         type: tempo
         access: proxy
-        url: http://tempo.observability.svc.cluster.local:3100
+        url: http://tempo.observability.svc.cluster.local:3200
