@@ -1,4 +1,8 @@
 server:
+  persistentVolume:
+    enabled: true
+    existingClaim: prometheus-frolf-pvc
+    size: 5Gi
   global:
     scrape_interval: 1m
 
@@ -8,3 +12,10 @@ server:
         - targets: ["alloy.observability:4317", "alloy.observability:4318"]
   extraArgs:
     web.enable-remote-write-receiver: ""
+
+grafana:
+  enabled: true
+  persistence:
+    enabled: true
+    existingClaim: grafana-frolf-pvc
+    size: 5Gi

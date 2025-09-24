@@ -1,0 +1,10 @@
+name: tempo
+app:
+  name: tempo
+  helmRepo: https://grafana.github.io/helm-charts
+  chart: tempo
+  chartVersion: 1.23.3
+  valueFiles: charts/tempo/values.yaml
+  namespace: observability
+  ssa: ""
+  syncWave: "1"

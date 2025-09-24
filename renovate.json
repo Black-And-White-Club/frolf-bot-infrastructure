@@ -1,0 +1,15 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:recommended"],
+	"helm": {
+		"enabled": true
+	},
+	"regexManagers": [
+		{
+			"fileMatch": ["multi-source-apps/.*\\.yaml$"],
+			"matchStrings": ["chartVersion: \"(?<currentValue>.*?)\""],
+			"depNameTemplate": "{{{app.helmRepo}}}/{{{app.chart}}}",
+			"datasourceTemplate": "helm"
+		}
+	]
+}

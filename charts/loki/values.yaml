@@ -1,4 +1,8 @@
 loki:
+  persistence:
+    enabled: true
+    existingClaim: loki-frolf-pvc
+    size: 5Gi
   commonConfig:
     replication_factor: 1
   memberlist:
@@ -42,6 +46,13 @@ singleBinary:
     enabled: true
     storageClass: "local-path" # Changed from "standard" to "local-path"
     size: 10Gi
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
 
 # Zero out replica counts of other modes (not needed with singleBinary, but safe)
 backend:
@@ -68,3 +79,11 @@ bloomCompactor:
   replicas: 0
 bloomGateway:
   replicas: 0
+
+# If you plan to use Grafana Agent (Alloy) as the shipper, disable promtail:
+promtail:
+  enabled: false
+
+# Service exposure
+service:
+  type: ClusterIP

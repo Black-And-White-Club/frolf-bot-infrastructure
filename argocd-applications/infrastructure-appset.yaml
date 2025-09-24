@@ -1,9 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: multi-source-applications
+  name: infrastructure-appset
   namespace: argocd
 spec:
+  goTemplate: true
   generators:
     - git:
         repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
@@ -12,30 +13,28 @@ spec:
           - path: "multi-source-apps/*.yaml"
   template:
     metadata:
-      name: "{{ name }}"
+      name: "{{ .name }}"
       labels:
-        app: "{{ app.name }}"
-        type: multi-source
+        app: "{{ .app.name }}"
+        type: infrastructure
       annotations:
-        argocd.argoproj.io/sync-options: "{{ app.ssa }}"
+        argocd.argoproj.io/sync-options: "{{ .app.ssa }}"
     spec:
       project: frolf-bot
       sources:
-        - repoURL: "{{ app.helmRepo }}"
-          chart: "{{ app.chart }}"
-          targetRevision: "{{ app.chartVersion }}"
+        - repoURL: "{{ .app.helmRepo }}"
+          chart: "{{ .app.chart }}"
+          targetRevision: "{{ .app.chartVersion }}"
           helm:
             valueFiles:
-              - "$values/{{ app.valueFiles }}"
+              - "$values/{{ .app.valueFiles }}"
         - repoURL: "https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git"
           targetRevision: main
           ref: values
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{ app.namespace }}"
+        namespace: "{{ .app.namespace }}"
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
-        syncOptions:
-          - CreateNamespace=true

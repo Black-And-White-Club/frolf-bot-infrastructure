@@ -1,2 +1,18 @@
+replicaCount: 1
+
+tempo:
+  persistence:
+    enabled: true
+    existingClaim: tempo-frolf-pvc
+    size: 5Gi
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 250m
+    memory: 512Mi
+
 service:
   type: ClusterIP

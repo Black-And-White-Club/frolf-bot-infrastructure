@@ -1,0 +1,10 @@
+name: loki
+app:
+  name: loki
+  helmRepo: https://grafana.github.io/helm-charts
+  chart: loki
+  chartVersion: 6.40.0
+  valueFiles: charts/loki/values.yaml
+  namespace: observability
+  ssa: ""
+  syncWave: "1"

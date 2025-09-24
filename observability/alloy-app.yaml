@@ -1,0 +1,10 @@
+name: agent
+app:
+  name: grafana-agent
+  helmRepo: https://grafana.github.io/helm-charts
+  chart: grafana-agent
+  chartVersion: 1.2.1
+  valueFiles: charts/agent/values.yaml
+  namespace: observability
+  ssa: ""
+  syncWave: "2"

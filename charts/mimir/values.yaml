@@ -1,0 +1,19 @@
+# Use single instance / minimal replicas
+replicaCount: 1
+
+# Use local filesystem / small PVC for a single-node lab
+persistence:
+  enabled: true
+  size: 10Gi # metrics store - adjust to your retention needs
+
+# Keep resource usage small but meaningful
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 1
+    memory: 2Gi
+# Disable HA/distributed features in values if the chart exposes them
+# (Exact keys differ by chart version — disable retention replication/cluster rings)
+# Example: set singleBinary or small single-node flags if the chart supports them.

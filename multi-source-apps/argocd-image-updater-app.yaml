@@ -1,0 +1,9 @@
+name: argocd-image-updater
+app:
+  name: argocd-image-updater
+  helmRepo: https://argoproj.github.io/argo-helm
+  chart: argocd-image-updater
+  chartVersion: "0.12.3"
+  valueFiles: charts/argocd-image-updater/values.yaml
+  namespace: argocd
+  ssa: ServerSideApply=false
