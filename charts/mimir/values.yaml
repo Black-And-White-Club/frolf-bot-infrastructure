@@ -22,6 +22,9 @@ mimir:
       filesystem:
         dir: /data/alertmanager
 
+minio:
+  enabled: false
+
 # Disable HA components for single node
 distributor:
   replicas: 1
@@ -58,11 +61,5 @@ resources:
 rollout_operator:
   enabled: false
 
-minio:
-  resources:
-    requests:
-      cpu: 10m
-      memory: 32Mi
-    limits:
-      cpu: 50m
-      memory: 64Mi
+nginx:
+  enabled: false
