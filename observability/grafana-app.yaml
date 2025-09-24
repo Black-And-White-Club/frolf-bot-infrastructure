@@ -6,5 +6,5 @@ app:
   chartVersion: 10.0.0
   valueFiles: charts/grafana/values.yaml
   namespace: observability
-  ssa: ""
+  ssa: Prune=true,PrunePropagationPolicy=foreground
   syncWave: "5"

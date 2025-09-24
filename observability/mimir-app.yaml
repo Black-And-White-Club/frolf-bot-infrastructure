@@ -6,5 +6,5 @@ app:
   chartVersion: "5.9.0-weekly.361"
   valueFiles: charts/mimir/values.yaml
   namespace: observability
-  ssa: ""
+  ssa: Prune=true,PrunePropagationPolicy=foreground
   syncWave: "1"

@@ -6,5 +6,5 @@ app:
   chartVersion: 1.2.1
   valueFiles: charts/alloy/values.yaml
   namespace: observability
-  ssa: ""
+  ssa: Prune=true,PrunePropagationPolicy=foreground
   syncWave: "2"
