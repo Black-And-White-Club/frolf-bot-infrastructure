@@ -28,20 +28,42 @@ minio:
 # Disable HA components for single node
 distributor:
   replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      cpu: 200m
+      memory: 1Gi
 ingester:
   replicas: 0
 querier:
   replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
 query_frontend:
   replicas: 1
-compactor:
-  replicas: 0
-store_gateway:
-  replicas: 0
-ruler:
-  replicas: 0
-alertmanager:
-  replicas: 0
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+query_scheduler:
+  enabled: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
 
 # Use local filesystem / small PVC for a single-node lab
 persistence:
@@ -62,4 +84,15 @@ rollout_operator:
   enabled: false
 
 nginx:
+  enabled: false
+
+# Disable ingest storage and kafka if not using
+ingest_storage:
+  enabled: false
+
+kafka:
+  enabled: false
+
+# Disable overrides-exporter if not needed
+overrides_exporter:
   enabled: false
