@@ -8,6 +8,7 @@ service:
 
 persistence:
   enabled: true
+  existingClaim: grafana-frolf-pvc
   size: 5Gi
 
 resources:

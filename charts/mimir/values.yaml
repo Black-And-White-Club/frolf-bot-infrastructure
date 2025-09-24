@@ -26,23 +26,24 @@ mimir:
 distributor:
   replicas: 1
 ingester:
-  replicas: 1
+  replicas: 0
 querier:
   replicas: 1
 query_frontend:
   replicas: 1
 compactor:
-  replicas: 1
+  replicas: 0
 store_gateway:
-  replicas: 1
+  replicas: 0
 ruler:
-  replicas: 1
+  replicas: 0
 alertmanager:
-  replicas: 1
+  replicas: 0
 
 # Use local filesystem / small PVC for a single-node lab
 persistence:
   enabled: true
+  existingClaim: mimir-frolf-pvc
   size: 10Gi
 
 # Keep resource usage small but meaningful

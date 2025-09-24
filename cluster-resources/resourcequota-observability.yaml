@@ -6,9 +6,7 @@ metadata:
 spec:
   hard:
     requests.cpu: "2"
-    requests.memory: 6Gi
+    requests.memory: 8Gi
     limits.cpu: "4"
     limits.memory: 12Gi
     persistentvolumeclaims: "20"
-  scopes:
-    - NotBestEffort
