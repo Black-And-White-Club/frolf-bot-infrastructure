@@ -95,12 +95,6 @@ compactor:
 store_gateway:
   enabled: false
 
-# Use local filesystem / small PVC for a single-node lab
-persistence:
-  enabled: true
-  storageClass: standard
-  size: 10Gi
-
 # Keep resource usage small but meaningful
 resources:
   requests:
