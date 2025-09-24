@@ -46,7 +46,7 @@ ingester:
       memory: 1Gi
   persistentVolume:
     enabled: true
-    storageClass: standard
+    existingClaim: mimir-frolf-pvc
 querier:
   replicas: 1
   resources:
