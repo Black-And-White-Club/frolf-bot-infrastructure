@@ -51,6 +51,7 @@ ingester:
     enabled: true
     claimName: mimir-frolf-pvc
     storageClass: ""
+    size: 10Gi
 querier:
   replicas: 1
   resources:
