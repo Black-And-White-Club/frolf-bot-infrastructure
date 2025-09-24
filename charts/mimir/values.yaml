@@ -47,9 +47,11 @@ ingester:
     limits:
       cpu: 200m
       memory: 1Gi
+  nodeSelector:
+    kubernetes.io/hostname: resume-project-node
   persistentVolume:
     enabled: true
-    storageClassName: "-"
+    storageClass: "-"
     size: 10Gi
 querier:
   replicas: 1
