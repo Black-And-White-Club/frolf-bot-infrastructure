@@ -1,4 +1,4 @@
-logLevel: "DEBUG"
+logLevel: "INFO"
 
 rbac:
   create: true
@@ -7,21 +7,17 @@ serviceAccount:
   create: true
 
 controller:
-  hostNetwork: true
-  extraEnvVars:
-    - name: KUBERNETES_SERVICE_HOST
-      value: "127.0.0.1"
-    - name: KUBERNETES_SERVICE_PORT
-      value: "6443"
+  hostNetwork: false
+  extraEnvVars: []
 
-updateStatus: false
+updateStatus: true # enables status updates on SealedSecrets (safe to leave on)
 
 livenessProbe:
-  initialDelaySeconds: 60
+  initialDelaySeconds: 30
 
 readinessProbe:
-  initialDelaySeconds: 60
+  initialDelaySeconds: 30
 
 startupProbe:
   enabled: true
-  initialDelaySeconds: 60
+  initialDelaySeconds: 30
