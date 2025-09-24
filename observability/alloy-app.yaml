@@ -1,10 +1,10 @@
-name: agent
+name: alloy
 app:
-  name: grafana-agent
+  name: grafana-alloy
   helmRepo: https://grafana.github.io/helm-charts
-  chart: grafana-agent
+  chart: alloy
   chartVersion: 1.2.1
-  valueFiles: charts/agent/values.yaml
+  valueFiles: charts/alloy/values.yaml
   namespace: observability
   ssa: ""
   syncWave: "2"
