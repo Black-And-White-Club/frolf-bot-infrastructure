@@ -3,7 +3,7 @@ app:
   name: mimir
   helmRepo: https://grafana.github.io/helm-charts
   chart: mimir-distributed
-  chartVersion: 5.9.0-weekly.361
+  chartVersion: "5.9.0-weekly.361"
   valueFiles: charts/mimir/values.yaml
   namespace: observability
   ssa: ""

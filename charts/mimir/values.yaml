@@ -1,10 +1,49 @@
 # Use single instance / minimal replicas
 replicaCount: 1
 
+# Configure for single-node deployment
+mimir:
+  structuredConfig:
+    common:
+      storage:
+        backend: filesystem
+        filesystem:
+          dir: /data
+    blocks_storage:
+      backend: filesystem
+      filesystem:
+        dir: /data/blocks
+    ruler_storage:
+      backend: filesystem
+      filesystem:
+        dir: /data/ruler
+    alertmanager_storage:
+      backend: filesystem
+      filesystem:
+        dir: /data/alertmanager
+
+# Disable HA components for single node
+distributor:
+  replicas: 1
+ingester:
+  replicas: 1
+querier:
+  replicas: 1
+query_frontend:
+  replicas: 1
+compactor:
+  replicas: 1
+store_gateway:
+  replicas: 1
+ruler:
+  replicas: 1
+alertmanager:
+  replicas: 1
+
 # Use local filesystem / small PVC for a single-node lab
 persistence:
   enabled: true
-  size: 10Gi # metrics store - adjust to your retention needs
+  size: 10Gi
 
 # Keep resource usage small but meaningful
 resources:
@@ -14,6 +53,3 @@ resources:
   limits:
     cpu: 1
     memory: 2Gi
-# Disable HA/distributed features in values if the chart exposes them
-# (Exact keys differ by chart version — disable retention replication/cluster rings)
-# Example: set singleBinary or small single-node flags if the chart supports them.
