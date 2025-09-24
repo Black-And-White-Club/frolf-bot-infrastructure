@@ -49,7 +49,7 @@ ingester:
       memory: 1Gi
   persistentVolume:
     enabled: true
-    storageClass: "-"
+    storageClassName: "-"
     size: 10Gi
 querier:
   replicas: 1
