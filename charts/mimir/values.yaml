@@ -85,7 +85,7 @@ store_gateway:
 # Use local filesystem / small PVC for a single-node lab
 persistence:
   enabled: true
-  existingClaim: mimir-frolf-pvc
+  storageClass: standard
   size: 10Gi
 
 # Keep resource usage small but meaningful
