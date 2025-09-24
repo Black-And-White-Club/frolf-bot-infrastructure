@@ -63,7 +63,7 @@ query_frontend:
       cpu: 200m
       memory: 256Mi
 query_scheduler:
-  enabled: true
+  replicas: 1
   resources:
     requests:
       cpu: 100m
