@@ -95,15 +95,6 @@ compactor:
 store_gateway:
   enabled: false
 
-# Keep resource usage small but meaningful
-resources:
-  requests:
-    cpu: 500m
-    memory: 1Gi
-  limits:
-    cpu: 1
-    memory: 2Gi
-
 rollout_operator:
   enabled: false
 
