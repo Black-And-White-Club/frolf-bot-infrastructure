@@ -1,0 +1,10 @@
+name: grafana
+app:
+  name: grafana
+  helmRepo: https://grafana.github.io/helm-charts
+  chart: grafana
+  chartVersion: 10.0.0
+  valueFiles: charts/grafana/values.yaml
+  namespace: observability
+  ssa: ""
+  syncWave: "5"
