@@ -1,5 +1,14 @@
 logLevel: "DEBUG"
 
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+
+controller:
+  hostNetwork: true
+
 updateStatus: false
 
 livenessProbe:

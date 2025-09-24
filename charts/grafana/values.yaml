@@ -8,6 +8,15 @@ persistence:
   existingClaim: grafana-frolf-pvc
   size: 5Gi
 
+initChownData:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 50m
+      memory: 64Mi
+
 resources:
   requests:
     cpu: 100m

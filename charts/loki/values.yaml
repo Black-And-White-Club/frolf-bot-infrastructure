@@ -55,6 +55,8 @@ singleBinary:
       memory: 1Gi
 
 gateway:
+  nginxConfig:
+    resolver: coredns.kube-system.svc.cluster.local
   resources:
     requests:
       cpu: 10m

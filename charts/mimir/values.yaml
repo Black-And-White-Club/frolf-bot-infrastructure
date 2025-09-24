@@ -21,6 +21,8 @@ mimir:
       backend: filesystem
       filesystem:
         dir: /data/alertmanager
+    ingest_storage:
+      enabled: false
 
 minio:
   enabled: false
