@@ -22,7 +22,7 @@ mimir:
 minio:
   enabled: false
 
-# Disable HA components for single node
+# Disable HA components for single node - only keep essential services
 distributor:
   replicas: 1
   resources:
@@ -78,6 +78,10 @@ ruler:
     limits:
       cpu: 200m
       memory: 256Mi
+
+# Disable stateful components that require PVCs for minimal setup
+alertmanager:
+  replicas: 0
 
 store_gateway:
   replicas: 0
