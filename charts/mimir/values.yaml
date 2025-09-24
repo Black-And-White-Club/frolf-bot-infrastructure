@@ -51,8 +51,7 @@ ingester:
     kubernetes.io/hostname: resume-project-node
   persistentVolume:
     enabled: true
-    storageClass: "-"
-    size: 10Gi
+    existingClaim: mimir-frolf-pvc
 querier:
   replicas: 1
   resources:
