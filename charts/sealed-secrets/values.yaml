@@ -1,2 +1,16 @@
 serviceAccount:
   automountServiceAccountToken: true
+
+livenessProbe:
+  initialDelaySeconds: 30
+
+readinessProbe:
+  initialDelaySeconds: 30
+
+startupProbe:
+  enabled: true
+  initialDelaySeconds: 30
+
+networkPolicy:
+  enabled: true
+  allowExternal: true
