@@ -1,24 +1,2 @@
-logLevel: "INFO"
-
-rbac:
-  create: true
-
 serviceAccount:
-  create: true
   automountServiceAccountToken: true
-
-controller:
-  hostNetwork: false
-  extraEnvVars: []
-
-updateStatus: true # enables status updates on SealedSecrets (safe to leave on)
-
-livenessProbe:
-  initialDelaySeconds: 30
-
-readinessProbe:
-  initialDelaySeconds: 30
-
-startupProbe:
-  enabled: true
-  initialDelaySeconds: 30
