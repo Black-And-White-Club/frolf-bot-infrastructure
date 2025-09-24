@@ -54,6 +54,15 @@ singleBinary:
       cpu: 500m
       memory: 1Gi
 
+gateway:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 50m
+      memory: 64Mi
+
 # Zero out replica counts of other modes (not needed with singleBinary, but safe)
 backend:
   replicas: 0
