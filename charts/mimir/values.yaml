@@ -23,8 +23,8 @@ ingester:
     enabled: false
   persistentVolume:
     enabled: true
-    storageClass: "-"
-    size: 10Gi
+    storageClass: mimir-local
+    size: 5Gi
   resources:
     requests:
       cpu: 100m
@@ -49,7 +49,12 @@ ruler:
   enabled: true
   replicas: 1
   persistentVolume:
-    enabled: false
+    enabled: true
+    storageClass: mimir-local
+    size: 5Gi
+
+rollout_operator:
+  enabled: false
 
 alertmanager:
   enabled: false
