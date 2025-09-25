@@ -7,6 +7,8 @@ mimir:
     ingester:
       ring:
         replication_factor: 1
+    ruler:
+      data_dir: /data/ruler
     blocks_storage:
       backend: filesystem
       filesystem:
@@ -50,8 +52,14 @@ ingester:
   nodeSelector:
     kubernetes.io/hostname: resume-project-node
   persistentVolume:
-    enabled: true
-    existingClaim: mimir-frolf-pvc
+    enabled: false
+  extraVolumes:
+    - name: mimir-storage
+      persistentVolumeClaim:
+        claimName: mimir-frolf-pvc
+  extraVolumeMounts:
+    - name: mimir-storage
+      mountPath: /data
 querier:
   replicas: 1
   resources:
