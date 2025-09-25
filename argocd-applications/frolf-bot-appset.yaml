@@ -9,15 +9,13 @@ spec:
     - git:
         repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
         revision: main
-        files:
-          - path: "frolf-bot-app-manifests/*.yaml"
+        directories:
+          - path: frolf-bot-app-manifests
   template:
     metadata:
-      name: 'frolf-bot-{{ trimSuffix ".yaml" .path.filename }}'
+      name: frolf-bot
       labels:
         app: frolf-bot
-        component: '{{ trimSuffix ".yaml" .path.filename }}'
-        type: application
       annotations:
         argocd-image-updater.argoproj.io/image-list: |
           frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend:latest
@@ -27,18 +25,18 @@ spec:
         argocd-image-updater.argoproj.io/write-back-method: git
         argocd-image-updater.argoproj.io/git-branch: main
     spec:
-    project: frolf-bot
-    source:
-      repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
-      targetRevision: main
-      path: frolf-bot-app-manifests
-      kustomize: {}
-    destination:
-      server: https://kubernetes.default.svc
-      namespace: frolf-bot
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-      syncOptions:
-        - CreateNamespace=true
+      project: frolf-bot
+      source:
+        repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
+        targetRevision: main
+        path: frolf-bot-app-manifests
+        kustomize: {}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: frolf-bot
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
