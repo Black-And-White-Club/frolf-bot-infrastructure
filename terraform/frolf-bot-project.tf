@@ -7,10 +7,11 @@ module "service_account" {
 }
 
 module "artifact_registry" {
-  source                = "./modules/artifact-registry"
-  project_id            = var.project_id
-  region                = var.region
-  service_account_email = module.service_account.service_account_email
+  source                    = "./modules/artifact-registry"
+  project_id                = var.project_id
+  region                    = var.region
+  service_account_email     = module.service_account.service_account_email
+  aiu_service_account_email = module.service_account.aiu_service_account_email
 }
 
 # Persistent disks for frolf-bot storage
