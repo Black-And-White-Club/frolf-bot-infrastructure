@@ -20,8 +20,6 @@ mimir:
       enabled: false
     ingester:
       push_grpc_method_enabled: true
-    ruler:
-      data_dir: /data/ruler
 
 minio:
   enabled: false
@@ -51,7 +49,10 @@ ingester:
   nodeSelector:
     kubernetes.io/hostname: resume-project-node
   persistentVolume:
-    enabled: false
+    enabled: true
+    claimName: mimir-frolf-pvc
+    storageClass: "-"
+    size: 10Gi
 querier:
   replicas: 1
   resources:
