@@ -63,3 +63,5 @@ nginx:
   enabled: false
 kafka:
   enabled: false
+minio:
+  enabled: false
