@@ -88,7 +88,8 @@ ruler:
     limits:
       cpu: 200m
       memory: 256Mi
-  extraArgs: -ruler.data-dir=/data/ruler-data
+  extraArgs:
+    - -ruler.data-dir=/data/ruler-data
 
 # Disable stateful components that require PVCs for minimal setup
 alertmanager:
