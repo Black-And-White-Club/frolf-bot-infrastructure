@@ -11,7 +11,7 @@ config:
       api_url: https://us-central1-docker.pkg.dev
       prefix: us-central1-docker.pkg.dev
       ping: no
-      credentials: ext:/bin/sh -c 'echo "_json_key:$(base64 -w 0 /etc/gcp/key.json)"'
+      credentials: pullsecret:argocd/gcp-artifact-registry
 serviceAccount:
   create: true
 
@@ -23,15 +23,3 @@ extraEnvVars:
       secretKeyRef:
         name: argocd-image-updater-secret
         key: argocd.token
-  - name: GOOGLE_APPLICATION_CREDENTIALS
-    value: /etc/gcp/key.json
-
-extraVolumes:
-  - name: gcp-key
-    secret:
-      secretName: gcp-sa-key
-
-extraVolumeMounts:
-  - name: gcp-key
-    mountPath: /etc/gcp
-    readOnly: true
