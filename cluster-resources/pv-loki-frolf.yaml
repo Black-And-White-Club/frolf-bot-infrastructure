@@ -8,7 +8,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: "loki-local"
+  storageClassName: loki-local
   local:
     path: /mnt/frolf_grafana/loki
   nodeAffinity:
