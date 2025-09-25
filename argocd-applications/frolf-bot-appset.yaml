@@ -22,10 +22,8 @@ spec:
         argocd-image-updater.argoproj.io/image-list: |
           frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend
           frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord
-        argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: latest
-        argocd-image-updater.argoproj.io/frolf-bot-backend.allow-tags: regexp:^[a-f0-9]+$
-        argocd-image-updater.argoproj.io/frolf-bot-discord.update-strategy: latest
-        argocd-image-updater.argoproj.io/frolf-bot-discord.allow-tags: regexp:^[a-f0-9]+$
+        argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: digest
+        argocd-image-updater.argoproj.io/frolf-bot-discord.update-strategy: digest
         argocd-image-updater.argoproj.io/write-back-method: git
         argocd-image-updater.argoproj.io/git-branch: main
     spec:
