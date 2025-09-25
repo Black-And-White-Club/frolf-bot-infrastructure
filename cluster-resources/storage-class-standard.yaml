@@ -4,3 +4,10 @@ metadata:
   name: standard
 provisioner: rancher.io/local-path
 volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: mimir-local
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: Immediate

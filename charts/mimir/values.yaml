@@ -4,8 +4,6 @@ replicaCount: 1
 # Configure for single-node deployment
 mimir:
   structuredConfig:
-    ruler:
-      data_dir: /data/ruler-data
     blocks_storage:
       backend: filesystem
       filesystem:
@@ -90,6 +88,7 @@ ruler:
     limits:
       cpu: 200m
       memory: 256Mi
+  extraArgs: -ruler.data-dir=/data/ruler-data
 
 # Disable stateful components that require PVCs for minimal setup
 alertmanager:
