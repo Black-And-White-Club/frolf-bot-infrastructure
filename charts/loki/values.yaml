@@ -1,7 +1,7 @@
 loki:
   persistence:
     enabled: true
-    existingClaim: loki-frolf-pvc
+    storageClass: loki-local
     size: 5Gi
 
   commonConfig:
