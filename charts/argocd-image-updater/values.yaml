@@ -8,7 +8,7 @@ config:
   gitCommitMail: "argocd-image-updater@noreply.com"
   registries:
     - name: Google Artifact Registry
-      api_url: https://us-central1-docker.pkg.dev/v2
+      api_url: https://us-central1-docker.pkg.dev
       prefix: us-central1-docker.pkg.dev
       ping: yes
       credentials: pullsecret:argocd/gcp-artifact-registry
