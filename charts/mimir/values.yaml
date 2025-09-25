@@ -4,11 +4,6 @@ replicaCount: 1
 # Configure for single-node deployment
 mimir:
   structuredConfig:
-    ingester:
-      ring:
-        replication_factor: 1
-    ruler:
-      data_dir: /data/ruler
     blocks_storage:
       backend: filesystem
       filesystem:
@@ -52,14 +47,8 @@ ingester:
   nodeSelector:
     kubernetes.io/hostname: resume-project-node
   persistentVolume:
-    enabled: false
-  extraVolumes:
-    - name: mimir-storage
-      persistentVolumeClaim:
-        claimName: mimir-frolf-pvc
-  extraVolumeMounts:
-    - name: mimir-storage
-      mountPath: /data
+    enabled: true
+    claimName: mimir-frolf-pvc
 querier:
   replicas: 1
   resources:
