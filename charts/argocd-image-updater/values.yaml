@@ -11,7 +11,7 @@ config:
       api_url: https://us-central1-docker.pkg.dev
       prefix: us-central1-docker.pkg.dev
       ping: no
-      credentials: gcp
+      credentials: ext:/bin/sh -c 'echo "_json_key:$(base64 -w 0 /etc/gcp/key.json)"'
 serviceAccount:
   create: true
 
