@@ -4,6 +4,8 @@ replicaCount: 1
 # Configure for single-node deployment
 mimir:
   structuredConfig:
+    ruler:
+      data_dir: /data/ruler-data
     blocks_storage:
       backend: filesystem
       filesystem:
@@ -49,6 +51,8 @@ ingester:
   persistentVolume:
     enabled: true
     claimName: mimir-frolf-pvc
+    storageClass: mimir-local
+    size: 10Gi
 querier:
   replicas: 1
   resources:
