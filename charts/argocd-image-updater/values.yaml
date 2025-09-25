@@ -6,11 +6,11 @@ config:
     tokenSecretName: "argocd-image-updater-secret"
   gitCommitUser: "argocd-image-updater"
   gitCommitMail: "argocd-image-updater@noreply.com"
-  registries.conf: |
-    registries:
+  registries:
     - name: Google Artifact Registry
       api_url: https://us-central1-docker.pkg.dev/v2
       prefix: us-central1-docker.pkg.dev
+      ping: yes
       credentials: secret:gcp-artifact-registry#registry_key
 serviceAccount:
   create: true
