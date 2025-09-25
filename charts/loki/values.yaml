@@ -1,9 +1,4 @@
 loki:
-  persistence:
-    enabled: true
-    storageClass: loki-local
-    size: 5Gi
-
   commonConfig:
     replication_factor: 1
 
@@ -41,6 +36,10 @@ singleBinary:
     limits:
       cpu: 500m
       memory: 1Gi
+  persistence:
+    enabled: true
+    storageClass: loki-local
+    size: 5Gi
 
 # Optional lightweight gateway
 gateway:
