@@ -79,6 +79,10 @@ bloomCompactor:
   replicas: 0
 bloomGateway:
   replicas: 0
+chunksCache:
+  enabled: false
+resultsCache:
+  enabled: false
 
 # promtail disabled (using Grafana Agent or another shipper)
 promtail:
