@@ -11,7 +11,7 @@ config:
       api_url: https://us-central1-docker.pkg.dev/v2
       prefix: us-central1-docker.pkg.dev
       ping: yes
-      credentials: secret:gcp-artifact-registry#registry_key
+      credentials: secret:argocd/gcp-artifact-registry#registry_key
 serviceAccount:
   create: true
 
