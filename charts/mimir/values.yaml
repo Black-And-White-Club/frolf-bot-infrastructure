@@ -4,7 +4,6 @@ replicaCount: 1
 # Configure for single-node deployment
 mimir:
   structuredConfig:
-    data_dir: /data/common
     blocks_storage:
       backend: filesystem
       filesystem:
@@ -48,10 +47,7 @@ ingester:
   nodeSelector:
     kubernetes.io/hostname: resume-project-node
   persistentVolume:
-    enabled: true
-    claimName: mimir-frolf-pvc
-    storageClass: "-"
-    size: 10Gi
+    enabled: false
 querier:
   replicas: 1
   resources:
