@@ -13,3 +13,12 @@ resource "google_artifact_registry_repository_iam_member" "frolf_bot_sa_writer" 
   role       = "roles/artifactregistry.writer"
   member     = "serviceAccount:${var.service_account_email}"
 }
+
+# Grant the AIU SA read access to Artifact Registry
+resource "google_artifact_registry_repository_iam_member" "aiu_sa_reader" {
+  project    = var.project_id
+  location   = google_artifact_registry_repository.frolf_bot_repo.location
+  repository = google_artifact_registry_repository.frolf_bot_repo.name
+  role       = "roles/artifactregistry.reader"
+  member     = "serviceAccount:${var.aiu_service_account_email}"
+}
