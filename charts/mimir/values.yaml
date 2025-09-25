@@ -49,7 +49,7 @@ ingester:
   persistentVolume:
     enabled: true
     claimName: mimir-frolf-pvc
-    storageClass: mimir-local
+    storageClass: "-"
     size: 10Gi
 querier:
   replicas: 1
@@ -89,7 +89,7 @@ ruler:
       cpu: 200m
       memory: 256Mi
   extraArgs:
-    - -ruler.data-dir=/data/ruler-data
+    ruler.data-dir: /data/ruler-data
 
 # Disable stateful components that require PVCs for minimal setup
 alertmanager:
