@@ -1,7 +1,5 @@
-# Use single instance / minimal replicas
 replicaCount: 1
 
-# Configure for single-node deployment
 mimir:
   structuredConfig:
     blocks_storage:
@@ -14,25 +12,19 @@ mimir:
         dir: /data/ruler
     ruler:
       rule_path: /data/rules
+    ingest_storage:
+      enabled: false
+    ingester:
+      push_grpc_method_enabled: true
 
-minio:
-  enabled: false
-
-# Disable HA components for single node - only keep essential services
-distributor:
-  replicas: 1
-  resources:
-    requests:
-      cpu: 100m
-      memory: 512Mi
-    limits:
-      cpu: 200m
-      memory: 1Gi
 ingester:
   replicas: 1
-  # Disable zone-aware replication for single node
   zoneAwareReplication:
     enabled: false
+  persistentVolume:
+    enabled: true
+    storageClass: mimir-local
+    size: 10Gi
   resources:
     requests:
       cpu: 100m
@@ -40,75 +32,30 @@ ingester:
     limits:
       cpu: 200m
       memory: 1Gi
-  nodeSelector:
-    kubernetes.io/hostname: resume-project-node
-  persistentVolume:
-    enabled: true
-    claimName: mimir-frolf-pvc
-    storageClass: ""
-    size: 10Gi
+
+distributor:
+  replicas: 1
+
 querier:
   replicas: 1
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      cpu: 200m
-      memory: 256Mi
+
 query_frontend:
   replicas: 1
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      cpu: 200m
-      memory: 256Mi
+
 query_scheduler:
   replicas: 1
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      cpu: 200m
-      memory: 256Mi
 
 ruler:
   enabled: true
   replicas: 1
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      cpu: 200m
-      memory: 256Mi
 
-# Disable stateful components that require PVCs for minimal setup
 alertmanager:
   enabled: false
-
 compactor:
   enabled: false
-
 store_gateway:
   enabled: false
-
-rollout_operator:
-  enabled: false
-
 nginx:
   enabled: false
-
-# Disable ingest storage and kafka if not using
-ingest_storage:
-  enabled: false
-
 kafka:
-  enabled: false
-
-# Disable overrides-exporter if not needed
-overrides_exporter:
   enabled: false
