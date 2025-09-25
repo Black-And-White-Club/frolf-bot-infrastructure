@@ -18,6 +18,10 @@ mimir:
         dir: /data/alertmanager
     ingest_storage:
       enabled: false
+    ingester:
+      push_grpc_method_enabled: true
+    ruler:
+      data_dir: /data/ruler
 
 minio:
   enabled: false
