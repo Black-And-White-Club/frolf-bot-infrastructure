@@ -17,23 +17,26 @@ spec:
       labels:
         app: frolf-bot
       annotations:
-        # Image list - remove the :latest tag to let image updater find all tags
+        # Try with explicit latest tag first to ensure connectivity
         argocd-image-updater.argoproj.io/image-list: |
-          frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend,
-          frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord
+          frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend:latest,
+          frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord:latest
 
-        # Update strategies for each image
-        argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: semver
-        argocd-image-updater.argoproj.io/frolf-bot-discord.update-strategy: semver
+        # Use digest strategy to track changes
+        argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: digest
+        argocd-image-updater.argoproj.io/frolf-bot-discord.update-strategy: digest
 
-        # Tag patterns to match (adjust based on your tagging strategy)
-        # Examples: v1.0.0, 1.0.0, v1.0.0-rc1
-        argocd-image-updater.argoproj.io/frolf-bot-backend.allow-tags: "regexp:^v?[0-9]+\\.[0-9]+\\.[0-9]+(-[a-z0-9]+)?$"
-        argocd-image-updater.argoproj.io/frolf-bot-discord.allow-tags: "regexp:^v?[0-9]+\\.[0-9]+\\.[0-9]+(-[a-z0-9]+)?$"
+        # Explicitly set the registry to use
+        argocd-image-updater.argoproj.io/frolf-bot-backend.registry: us-central1-docker.pkg.dev
+        argocd-image-updater.argoproj.io/frolf-bot-discord.registry: us-central1-docker.pkg.dev
 
-        # Pull secrets for each image
+        # Pull secrets
         argocd-image-updater.argoproj.io/frolf-bot-backend.pull-secret: "pullsecret:argocd/gcp-artifact-registry"
         argocd-image-updater.argoproj.io/frolf-bot-discord.pull-secret: "pullsecret:argocd/gcp-artifact-registry"
+
+        # Force pull to ensure we're checking the registry
+        argocd-image-updater.argoproj.io/frolf-bot-backend.force-update: "true"
+        argocd-image-updater.argoproj.io/frolf-bot-discord.force-update: "true"
 
         # Git write-back configuration
         argocd-image-updater.argoproj.io/write-back-method: git
