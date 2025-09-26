@@ -17,13 +17,27 @@ spec:
       labels:
         app: frolf-bot
       annotations:
+        # Image list with :latest tags
         argocd-image-updater.argoproj.io/image-list: |
-          frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend,
-          frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord
-        argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: semver
-        argocd-image-updater.argoproj.io/frolf-bot-backend.allow-tags: "regexp:^v?[0-9]+\\.[0-9]+\\.[0-9]+$"
-        argocd-image-updater.argoproj.io/frolf-bot-discord.update-strategy: semver
-        argocd-image-updater.argoproj.io/frolf-bot-discord.allow-tags: "regexp:^v?[0-9]+\\.[0-9]+\\.[0-9]+$"
+          frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend:latest,
+          frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord:latest
+
+        # Use digest strategy to track SHA changes
+        argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: digest
+        argocd-image-updater.argoproj.io/frolf-bot-discord.update-strategy: digest
+
+        # Pull secrets for accessing the registry
+        argocd-image-updater.argoproj.io/frolf-bot-backend.pull-secret: "pullsecret:argocd/gcp-artifact-registry"
+        argocd-image-updater.argoproj.io/frolf-bot-discord.pull-secret: "pullsecret:argocd/gcp-artifact-registry"
+
+        # Force update even if tag is the same (tracks digest changes)
+        argocd-image-updater.argoproj.io/frolf-bot-backend.force-update: "true"
+        argocd-image-updater.argoproj.io/frolf-bot-discord.force-update: "true"
+
+        # Git write-back configuration
+        argocd-image-updater.argoproj.io/write-back-method: git
+        argocd-image-updater.argoproj.io/git-branch: main
+        argocd-image-updater.argoproj.io/write-back-target: "kustomization"
 
     spec:
       project: frolf-bot
