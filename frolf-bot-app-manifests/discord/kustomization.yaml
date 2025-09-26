@@ -5,5 +5,5 @@ resources:
   - discord-deployment.yaml
 
 images:
-  - name: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot
-    newTag: 5a43a7c
+  - name: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot-acdcbeeada7153bab04a7fb26870d1c5
+    newTag: eb8cb45

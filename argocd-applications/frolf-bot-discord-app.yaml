@@ -6,7 +6,7 @@ metadata:
   labels:
     app: frolf-bot-discord
   annotations:
-    argocd-image-updater.argoproj.io/image-list: frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot:5a43a7c
+    argocd-image-updater.argoproj.io/image-list: frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot-acdcbeeada7153bab04a7fb26870d1c5:eb8cb45
     argocd-image-updater.argoproj.io/frolf-bot-discord.update-strategy: newest-build
     argocd-image-updater.argoproj.io/frolf-bot-discord.pull-secret: pullsecret:argocd/gcp-artifact-registry
     argocd-image-updater.argoproj.io/frolf-bot-discord.force-update: "true"
