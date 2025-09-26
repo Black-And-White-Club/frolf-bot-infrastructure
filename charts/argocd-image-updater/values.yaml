@@ -9,7 +9,7 @@ config:
   logLevel: "debug"
   registries:
     - name: Google Artifact Registry
-      api_url: https://us-central1-docker.pkg.dev
+      api_url: https://us-central1-docker.pkg.dev/v2
       prefix: us-central1-docker.pkg.dev
       ping: yes
       credentials: pullsecret:argocd/gcp-artifact-registry
