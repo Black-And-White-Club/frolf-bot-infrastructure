@@ -17,22 +17,23 @@ spec:
       labels:
         app: frolf-bot
       annotations:
-        # Image list with :latest tags
+        # Image list - remove the :latest tag to let image updater find all tags
         argocd-image-updater.argoproj.io/image-list: |
-          frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend:latest,
-          frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord:latest
+          frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend,
+          frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord
 
-        # Use digest strategy to track SHA changes
-        argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: digest
-        argocd-image-updater.argoproj.io/frolf-bot-discord.update-strategy: digest
+        # Update strategies for each image
+        argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: semver
+        argocd-image-updater.argoproj.io/frolf-bot-discord.update-strategy: semver
 
-        # Pull secrets for accessing the registry
+        # Tag patterns to match (adjust based on your tagging strategy)
+        # Examples: v1.0.0, 1.0.0, v1.0.0-rc1
+        argocd-image-updater.argoproj.io/frolf-bot-backend.allow-tags: "regexp:^v?[0-9]+\\.[0-9]+\\.[0-9]+(-[a-z0-9]+)?$"
+        argocd-image-updater.argoproj.io/frolf-bot-discord.allow-tags: "regexp:^v?[0-9]+\\.[0-9]+\\.[0-9]+(-[a-z0-9]+)?$"
+
+        # Pull secrets for each image
         argocd-image-updater.argoproj.io/frolf-bot-backend.pull-secret: "pullsecret:argocd/gcp-artifact-registry"
         argocd-image-updater.argoproj.io/frolf-bot-discord.pull-secret: "pullsecret:argocd/gcp-artifact-registry"
-
-        # Force update even if tag is the same (tracks digest changes)
-        argocd-image-updater.argoproj.io/frolf-bot-backend.force-update: "true"
-        argocd-image-updater.argoproj.io/frolf-bot-discord.force-update: "true"
 
         # Git write-back configuration
         argocd-image-updater.argoproj.io/write-back-method: git
