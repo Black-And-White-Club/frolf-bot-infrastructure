@@ -1,13 +1,10 @@
-# frolf-bot-app-manifests/kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - backend-deployment.yaml
   - discord-deployment.yaml
+  - discord-secrets.yaml
 
 images:
-  - name: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot
-    newTag: latest
   - name: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot
     newTag: latest
