@@ -17,8 +17,8 @@ spec:
         app: frolf-bot-discord
     spec:
       containers:
-        - name: discord-bot
-          image: frolf-bot-discord:latest # Change this to your actual image
+        - name: discord
+          image: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord:latest
           ports:
             - containerPort: 8081
             - containerPort: 6060
