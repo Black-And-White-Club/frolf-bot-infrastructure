@@ -7,9 +7,5 @@ resources:
   - discord-deployment.yaml
 
 images:
-  - name: frolf-bot-backend
-    newName: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend
-    newTag: latest
-  - name: frolf-bot-discord
-    newName: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord
-    newTag: latest
+  - name: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend
+  - name: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord
