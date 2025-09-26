@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: frolf-bot-backend
+  name: frolf-bot-applications
   namespace: argocd
 spec:
   goTemplate: true
@@ -13,14 +13,17 @@ spec:
           - path: frolf-bot-app-manifests
   template:
     metadata:
-      name: frolf-bot-backend
+      name: frolf-bot
       labels:
-        app: frolf-bot-backend
+        app: frolf-bot
       annotations:
-        argocd-image-updater.argoproj.io/image-list: backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot:latest
-        argocd-image-updater.argoproj.io/backend.update-strategy: newest-build
-        argocd-image-updater.argoproj.io/backend.pull-secret: pullsecret:argocd/gcp-artifact-registry
-        argocd-image-updater.argoproj.io/backend.force-update: "true"
+        argocd-image-updater.argoproj.io/image-list: frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot:latest,frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot:latest
+        argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: newest-build
+        argocd-image-updater.argoproj.io/frolf-bot-backend.pull-secret: pullsecret:argocd/gcp-artifact-registry
+        argocd-image-updater.argoproj.io/frolf-bot-backend.force-update: "true"
+        argocd-image-updater.argoproj.io/frolf-bot-discord.update-strategy: newest-build
+        argocd-image-updater.argoproj.io/frolf-bot-discord.pull-secret: pullsecret:argocd/gcp-artifact-registry
+        argocd-image-updater.argoproj.io/frolf-bot-discord.force-update: "true"
         argocd-image-updater.argoproj.io/write-back-method: git
         argocd-image-updater.argoproj.io/git-branch: main
 
@@ -30,9 +33,7 @@ spec:
         repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
         targetRevision: main
         path: frolf-bot-app-manifests
-        kustomize:
-          images:
-            - us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot:latest
+        kustomize: {}
       destination:
         server: https://kubernetes.default.svc
         namespace: frolf-bot
