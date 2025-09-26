@@ -11,7 +11,7 @@ config:
     - name: Google Artifact Registry
       api_url: https://us-central1-docker.pkg.dev
       prefix: us-central1-docker.pkg.dev
-      ping: yes
+      ping: no
       credentials: pullsecret:argocd/gcp-artifact-registry
 serviceAccount:
   create: true
