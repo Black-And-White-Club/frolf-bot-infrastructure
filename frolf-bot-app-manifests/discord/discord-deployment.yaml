@@ -16,6 +16,8 @@ spec:
       labels:
         app: frolf-bot-discord
     spec:
+      imagePullSecrets:
+        - name: gcp-artifact-registry
       containers:
         - name: discord
           image: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot:latest

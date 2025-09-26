@@ -16,6 +16,8 @@ spec:
       labels:
         app: frolf-bot-backend
     spec:
+      imagePullSecrets:
+        - name: gcp-artifact-registry
       # Add init container to wait for PostgreSQL
       initContainers:
         - name: wait-for-postgres
