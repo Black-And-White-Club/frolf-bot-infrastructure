@@ -6,4 +6,4 @@ resources:
 
 images:
   - name: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot
-    newTag: 9f31817
+    newTag: 609c00d
