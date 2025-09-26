@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - discord-deployment.yaml
-  - discord-secrets.yaml
 
 images:
   - name: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot
