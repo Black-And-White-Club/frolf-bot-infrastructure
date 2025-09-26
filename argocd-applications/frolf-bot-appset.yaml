@@ -17,9 +17,7 @@ spec:
       labels:
         app: frolf-bot
       annotations:
-        argocd-image-updater.argoproj.io/image-list: |
-          frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend:latest
-          frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord:latest
+        argocd-image-updater.argoproj.io/image-list: frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-backend:latest frolf-bot-discord=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-discord:latest
         argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: digest
         argocd-image-updater.argoproj.io/frolf-bot-discord.update-strategy: digest
         argocd-image-updater.argoproj.io/write-back-method: git
