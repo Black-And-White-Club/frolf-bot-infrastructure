@@ -20,6 +20,7 @@ spec:
       annotations:
         argocd.argoproj.io/sync-wave: "0"
         argocd.argoproj.io/sync-options: "{{ .app.ssa }}"
+        argocd.argoproj.io/depends-on: frolf-bot-backend
     spec:
       project: frolf-bot
       sources:
