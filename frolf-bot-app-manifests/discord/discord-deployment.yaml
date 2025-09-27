@@ -50,9 +50,9 @@ spec:
             # Completely disable all telemetry for local development
             # Enable Loki logging for development debugging
             - name: LOKI_URL
-              value: "http://loki.monitoring.svc.cluster.local:3100"
+              value: "http://loki.observability.svc.cluster.local:3100"
             - name: METRICS_ADDRESS
-              value: "alloy-otlp.monitoring.svc.cluster.local:4317"
+              value: "tempo.observability.svc.cluster.local:4317"
             - name: METRICS_ENABLED
               value: "true"
             # Disable OpenTelemetry completely
@@ -65,9 +65,9 @@ spec:
             - name: OTEL_SDK_DISABLED
               value: "false"
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
-              value: "http://alloy-otlp.monitoring.svc.cluster.local:4317"
+              value: "http://tempo.observability.svc.cluster.local:4317"
             - name: TEMPO_ENDPOINT
-              value: "alloy-otlp.monitoring.svc.cluster.local:4317"
+              value: "tempo.observability.svc.cluster.local:4317"
             - name: TEMPO_INSECURE
               value: "true"
             - name: TEMPO_SAMPLE_RATE

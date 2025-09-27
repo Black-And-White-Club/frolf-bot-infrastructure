@@ -125,5 +125,4 @@ auto-save-list
 tramp
 .\#*
 
-# Custom ignores for this project
-# Add any project-specific files that should not be committed
+

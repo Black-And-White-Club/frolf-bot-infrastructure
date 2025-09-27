@@ -1,8 +1,11 @@
 # Postgres for Frolf Bot (isolated)
 auth:
+  existingSecret: backend-secrets
+  secretKeys:
+    userPasswordKey: DB_PASSWORD
+    adminPasswordKey: DB_PASSWORD
+    replicationPasswordKey: DB_PASSWORD
   username: local
-  password: local
-  postgresPassword: local
   database: frolfbot
 
 primary:

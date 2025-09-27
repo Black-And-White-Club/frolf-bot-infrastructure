@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - backend-deployment.yaml
+  - sealed-backend-secrets.yaml
 
 images:
   - name: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot

@@ -40,7 +40,7 @@ spec:
               echo "NATS is ready!"
       containers:
         - name: backend
-          image: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot:latest
+          image: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot:609c00d
           ports:
             - containerPort: 8080
             - containerPort: 6060
@@ -98,13 +98,13 @@ spec:
             - name: AUTO_MIGRATE
               value: "true"
             - name: METRICS_ADDRESS
-              value: "alloy-otlp.monitoring.svc.cluster.local:4317"
+              value: "tempo.observability.svc.cluster.local:4317"
             - name: METRICS_ENABLED
               value: "false"
             - name: LOKI_URL
-              value: "http://loki.monitoring.svc.cluster.local:3100"
+              value: "http://loki.observability.svc.cluster.local:3100"
             - name: TEMPO_ENDPOINT
-              value: "alloy-otlp.monitoring.svc.cluster.local:4317"
+              value: "tempo.observability.svc.cluster.local:4317"
             - name: TEMPO_INSECURE
               value: "true"
             - name: TEMPO_SAMPLE_RATE
