@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: postgres-secret-reader-binding
+  namespace: frolf-bot
+subjects:
+  - kind: ServiceAccount
+    name: postgres-secret-accessor
+    namespace: postgres-frolf
+roleRef:
+  kind: Role
+  name: postgres-secret-reader
+  apiGroup: rbac.authorization.k8s.io

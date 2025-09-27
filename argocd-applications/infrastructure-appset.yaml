@@ -20,7 +20,7 @@ spec:
       annotations:
         argocd.argoproj.io/sync-wave: "0"
         argocd.argoproj.io/sync-options: "{{ .app.ssa }}"
-        argocd.argoproj.io/depends-on: frolf-bot-backend
+        argocd.argoproj.io/depends-on: '{{ if eq .name "postgres-frolf" }}frolf-bot-backend,postgres-rbac-frolf-bot,postgres-sa{{ else }}frolf-bot-backend{{ end }}'
     spec:
       project: frolf-bot
       sources:
