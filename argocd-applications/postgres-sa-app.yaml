@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/Black-And-White-Club/frolf-bot-infrastructure.git
     targetRevision: main
-    path: frolf-bot-app-manifests/postgres/serviceaccount.yaml
+    path: frolf-bot-app-manifests/postgres/sa
   destination:
     server: https://kubernetes.default.svc
     namespace: postgres-frolf
