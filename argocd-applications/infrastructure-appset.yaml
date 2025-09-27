@@ -18,6 +18,7 @@ spec:
         app: "{{ .app.name }}"
         type: infrastructure
       annotations:
+        argocd.argoproj.io/sync-wave: "0"
         argocd.argoproj.io/sync-options: "{{ .app.ssa }}"
     spec:
       project: frolf-bot
