@@ -1,0 +1,3 @@
+# Sealed Secrets values
+updateStatus: true
+keyRenewPeriod: "720h" # 30 days
