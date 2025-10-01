@@ -5,5 +5,5 @@ app:
   chart: nats
   chartVersion: 1.3.14
   valueFiles: charts/nats/values.yaml
-  namespace: frolf-nats
+  namespace: frolf-bot
   ssa: ""
