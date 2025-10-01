@@ -40,7 +40,7 @@ spec:
               echo "NATS is ready!"
       containers:
         - name: backend
-          image: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-5c61470c8a98ccb765b70626593bbb0c:609c00d # Will be updated by image-updater to frolf-bot:SHA
+          image: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot:latest
           ports:
             - containerPort: 8080
             - containerPort: 6060

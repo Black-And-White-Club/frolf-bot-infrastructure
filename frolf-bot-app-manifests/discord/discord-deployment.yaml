@@ -20,7 +20,7 @@ spec:
         - name: gcp-artifact-registry
       containers:
         - name: discord
-          image: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot-acdcbeeada7153bab04a7fb26870d1c5:eb8cb45
+          image: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot:latest
           ports:
             - containerPort: 8081
             - containerPort: 6060

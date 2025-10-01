@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
     argocd-image-updater.argoproj.io/image-list: frolf-bot-backend=us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot
-    argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: newest-build
+    argocd-image-updater.argoproj.io/frolf-bot-backend.update-strategy: latest
     argocd-image-updater.argoproj.io/frolf-bot-backend.pull-secret: pullsecret:argocd/gcp-artifact-registry
     argocd-image-updater.argoproj.io/frolf-bot-backend.force-update: "true"
     argocd-image-updater.argoproj.io/write-back-method: git
