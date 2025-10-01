@@ -7,12 +7,22 @@ config:
       enabled: true
       dir: /data
       pvc:
-        enabled: true
-        existingClaim: nats-frolf-pvc
+        enabled: false
+        size: 5Gi
+        storageClassName: ""
   nats:
     port: 4222 # Default NATS port
     tls:
       enabled: false # Set to true if you want to enable TLS
+
+podTemplate:
+  extraVolumes:
+    - name: jetstream-storage
+      persistentVolumeClaim:
+        claimName: nats-frolf-pvc
+  extraVolumeMounts:
+    - name: jetstream-storage
+      mountPath: /data
 
 resources:
   limits:
