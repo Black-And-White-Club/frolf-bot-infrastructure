@@ -5,5 +5,5 @@ resources:
   - backend-deployment.yaml
 
 images:
-  - name: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-5c61470c8a98ccb765b70626593bbb0c
-    newTag: 609c00d
+  - name: us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot
+    newTag: latest
