@@ -1,3 +1,4 @@
 kustomize:
   images:
   - us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot-acdcbeeada7153bab04a7fb26870d1c5:latest
+  - us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/discord-frolf-bot:latest
