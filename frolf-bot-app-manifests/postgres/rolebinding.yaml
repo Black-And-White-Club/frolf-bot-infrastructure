@@ -6,7 +6,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: postgres-secret-accessor
-    namespace: postgres-frolf
+    namespace: frolf-bot
 roleRef:
   kind: Role
   name: postgres-secret-reader

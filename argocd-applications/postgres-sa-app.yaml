@@ -13,7 +13,7 @@ spec:
     path: frolf-bot-app-manifests/postgres/sa
   destination:
     server: https://kubernetes.default.svc
-    namespace: postgres-frolf
+    namespace: frolf-bot
   syncPolicy:
     automated:
       prune: true

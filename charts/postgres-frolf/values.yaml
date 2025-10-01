@@ -5,7 +5,6 @@ serviceAccount:
 # Postgres for Frolf Bot (isolated)
 auth:
   existingSecret: backend-secrets
-  existingSecretNamespace: frolf-bot
   secretKeys:
     userPasswordKey: DB_PASSWORD
     adminPasswordKey: DB_PASSWORD

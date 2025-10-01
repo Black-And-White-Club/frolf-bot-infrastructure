@@ -5,7 +5,7 @@ app:
   chart: bitnamicharts/postgresql
   chartVersion: 16.7.9
   valueFiles: charts/postgres-frolf/values.yaml
-  namespace: postgres-frolf
+  namespace: frolf-bot
   ssa: ServerSideApply=false
   repoName: bitnami
   repoUrl: https://charts.bitnami.com/bitnami
