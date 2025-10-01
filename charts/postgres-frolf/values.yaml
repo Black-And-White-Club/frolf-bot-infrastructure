@@ -15,7 +15,7 @@ auth:
 primary:
   persistence:
     enabled: true
-    storageClass: "-"
+    storageClass: ""
     existingClaim: frolf-db-pvc
     size: 10Gi
   initContainers:

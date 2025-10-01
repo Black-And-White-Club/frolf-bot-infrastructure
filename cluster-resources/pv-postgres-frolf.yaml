@@ -24,7 +24,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: frolf-db-pvc
-  namespace: postgres-frolf
+  namespace: frolf-bot
 spec:
   accessModes:
     - ReadWriteOnce
