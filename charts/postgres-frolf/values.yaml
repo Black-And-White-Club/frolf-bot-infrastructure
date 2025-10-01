@@ -1,8 +1,4 @@
-serviceAccount:
-  create: false
-  name: postgres-secret-accessor
-
-# Postgres for Frolf Bot (isolated)
+# Postgres for Frolf Bot
 auth:
   existingSecret: backend-secrets
   secretKeys:
@@ -18,18 +14,6 @@ primary:
     storageClass: ""
     existingClaim: frolf-db-pvc
     size: 10Gi
-  initContainers:
-    - name: wait-for-secret
-      image: busybox:1.35
-      command: ["sh", "-c"]
-      args:
-        - |
-          echo "Waiting for backend-secrets to be created..."
-          until kubectl get secret backend-secrets -n frolf-bot >/dev/null 2>&1; do
-            echo "Secret not found yet. Waiting 5 seconds..."
-            sleep 5
-          done
-          echo "Secret found!"
 
 resources:
   requests:
