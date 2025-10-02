@@ -1,4 +1,4 @@
 kustomize:
   images:
   - us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot-5c61470c8a98ccb765b70626593bbb0c:latest
-  - us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot:latest@sha256:3a10df62d682aaef98249f53b40b04567c7a142c52592e1a70fca5a74eda829c
+  - us-central1-docker.pkg.dev/resume-portfolio-project/frolf-bot/frolf-bot:latest@sha256:8af33a6b68105ca0ed92c649e1af301212ca4c820c3bffe1cf7d1605c996e04d
