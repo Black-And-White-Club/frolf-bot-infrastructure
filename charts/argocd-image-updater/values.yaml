@@ -7,6 +7,10 @@ config:
   gitCommitUser: "argocd-image-updater"
   gitCommitMail: "argocd-image-updater@noreply.com"
   logLevel: "debug"
+  # Git credentials for writing back to repository
+  git:
+    user: "argocd-image-updater"
+    email: "argocd-image-updater@noreply.com"
   registries:
     - name: Google Artifact Registry
       api_url: https://us-central1-docker.pkg.dev
