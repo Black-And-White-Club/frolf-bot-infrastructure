@@ -5,7 +5,7 @@ adminPassword: changeme
 
 persistence:
   enabled: true
-  existingClaim: grafana-frolf-pvc
+  storageClass: oci-block-storage
   size: 5Gi
 
 initChownData:

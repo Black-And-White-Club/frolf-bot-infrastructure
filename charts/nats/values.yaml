@@ -7,19 +7,15 @@ config:
       enabled: true
       dir: /data
       pvc:
-        enabled: false
+        enabled: true
         size: 5Gi
-        storageClassName: ""
+        storageClassName: "oci-block-storage"
   nats:
     port: 4222 # Default NATS port
     tls:
       enabled: false # Set to true if you want to enable TLS
 
-podTemplate:
-  extraVolumes:
-    - name: jetstream-storage
-      persistentVolumeClaim:
-        claimName: nats-frolf-pvc
+  # The chart will create a PVC for the NATS file store (see 'fileStore.pvc' above). If you prefer a pre-existing claim, set 'fileStore.pvc.enabled=false' and define a PVC in cluster-resources with that name.
   extraVolumeMounts:
     - name: jetstream-storage
       mountPath: /data

@@ -3,9 +3,12 @@ replicaCount: 1
 mimir:
   structuredConfig:
     blocks_storage:
-      backend: filesystem
-      filesystem:
-        dir: /data/blocks
+      backend: s3
+      s3:
+        endpoint: objectstorage.us-ashburn-1.oraclecloud.com
+        bucket_name: mimir-shared-bucket
+        region: us-ashburn-1
+        s3forcepathstyle: true
     ruler_storage:
       backend: filesystem
       filesystem:
@@ -23,7 +26,7 @@ ingester:
     enabled: false
   persistentVolume:
     enabled: true
-    storageClass: mimir-local
+    storageClass: oci-block-storage
     size: 5Gi
   resources:
     requests:
@@ -50,8 +53,15 @@ ruler:
   replicas: 1
   persistentVolume:
     enabled: true
-    storageClass: mimir-local
+    storageClass: oci-block-storage
     size: 5Gi
+
+# Object storage credentials (SealedSecret should create the secret objectstore-creds in namespace 'observability')
+objectStorage:
+  secretName: objectstore-creds
+  accessKeySecretKey: access_key
+  secretKeySecretKey: secret_key
+  endpoint: objectstorage.us-ashburn-1.oraclecloud.com
 
 rollout_operator:
   enabled: false

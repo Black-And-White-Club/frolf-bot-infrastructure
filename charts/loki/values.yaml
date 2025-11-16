@@ -5,18 +5,18 @@ loki:
   schemaConfig:
     configs:
       - from: "2024-04-01"
-        store: tsdb
-        object_store: filesystem
-        schema: v13
+        store: boltdb-shipper
+        object_store: s3
+        schema: v14
         index:
           prefix: loki_index_
           period: 24h
 
   storage:
-    type: filesystem
-    filesystem:
-      chunks_directory: /var/loki/chunks
-      rules_directory: /var/loki/rules
+    type: s3
+    s3:
+      endpoint: objectstorage.us-ashburn-1.oraclecloud.com
+      bucketnames: loki-shared-bucket
 
   limits_config:
     allow_structured_metadata: true
@@ -38,8 +38,8 @@ singleBinary:
       memory: 1Gi
   persistence:
     enabled: true
-    storageClass: loki-local
-    size: 5Gi
+    storageClass: oci-block-storage
+    size: 2Gi
 
 # Optional lightweight gateway
 gateway:
@@ -86,6 +86,12 @@ resultsCache:
 # promtail disabled (using Grafana Agent or another shipper)
 promtail:
   enabled: false
+
+objectStorage:
+  secretName: objectstore-creds
+  accessKeySecretKey: access_key
+  secretKeySecretKey: secret_key
+  endpoint: objectstorage.us-ashburn-1.oraclecloud.com
 
 service:
   type: ClusterIP

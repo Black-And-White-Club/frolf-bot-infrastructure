@@ -11,8 +11,7 @@ auth:
 primary:
   persistence:
     enabled: true
-    storageClass: ""
-    existingClaim: frolf-db-pvc
+    storageClass: "oci-block-storage"
     size: 10Gi
 
 resources:

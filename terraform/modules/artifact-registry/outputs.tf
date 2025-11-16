@@ -1,4 +1,14 @@
+// DEPRECATED: artifact-registry outputs are now produced by the centralized
+// module at all-infrastructure/terraform/modules/artifact-registry
+// This placeholder prevents accidental use of a local artifact-registry
+// while the migration to OCIR is completed in the mono repo.
+
+output "repository_ocid" {
+  description = "OCID of the created repository (OCI) from centralized module"
+  value       = module.artifact_registry_shared.repository_ocid
+}
+
 output "repository_url" {
-  description = "The URL of the artifact registry repository"
-  value       = google_artifact_registry_repository.frolf_bot_repo.name
+  description = "Repository URL (OCIR) from centralized module"
+  value       = module.artifact_registry_shared.repository_url
 }

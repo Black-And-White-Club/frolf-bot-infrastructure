@@ -5,9 +5,12 @@ tempo:
     http_listen_address: "0.0.0.0"
     grpc_listen_address: "0.0.0.0"
   persistence:
-    enabled: true
-    existingClaim: tempo-frolf-pvc
-    size: 5Gi
+    enabled: false
+  storage_type: s3
+  s3:
+    endpoint: objectstorage.us-ashburn-1.oraclecloud.com
+    bucket: tempo-shared-bucket
+    region: us-ashburn-1
   resources:
     requests:
       cpu: 100m
@@ -26,3 +29,9 @@ tempo:
 
 service:
   type: ClusterIP
+
+objectStorage:
+  secretName: objectstore-creds
+  accessKeySecretKey: access_key
+  secretKeySecretKey: secret_key
+  endpoint: objectstorage.us-ashburn-1.oraclecloud.com

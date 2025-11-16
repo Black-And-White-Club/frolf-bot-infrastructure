@@ -1,24 +1,4 @@
-resource "google_artifact_registry_repository" "frolf_bot_repo" {
-  location      = var.region
-  repository_id = "frolf-bot"
-  description   = "Docker repository for frolf bot application"
-  format        = "DOCKER"
-}
-
-# service account permissions to push/pull from Artifact Registry
-resource "google_artifact_registry_repository_iam_member" "frolf_bot_sa_writer" {
-  project    = var.project_id
-  location   = google_artifact_registry_repository.frolf_bot_repo.location
-  repository = google_artifact_registry_repository.frolf_bot_repo.name
-  role       = "roles/artifactregistry.writer"
-  member     = "serviceAccount:${var.service_account_email}"
-}
-
-# Grant the AIU SA read access to Artifact Registry
-resource "google_artifact_registry_repository_iam_member" "aiu_sa_reader" {
-  project    = var.project_id
-  location   = google_artifact_registry_repository.frolf_bot_repo.location
-  repository = google_artifact_registry_repository.frolf_bot_repo.name
-  role       = "roles/artifactregistry.reader"
-  member     = "serviceAccount:${var.aiu_service_account_email}"
-}
+// DEPRECATED: artifact-registry module implementation moved to the mono repo
+// See: all-infrastructure/terraform/modules/artifact-registry
+// This per-project implementation was GCP-specific and has been consolidated
+// to centralize provider-controlled resources in `all-infrastructure`.
