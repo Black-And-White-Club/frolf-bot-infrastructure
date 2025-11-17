@@ -25,7 +25,10 @@ ingester:
   zoneAwareReplication:
     enabled: false
   persistentVolume:
-    enabled: true
+    # For production we recommend object storage for Mimir blocks and avoid local PVs where possible.
+    # This flag controls a local persistent volume for ingesters used for buffering/wal. Set to false
+    # to avoid creating PVs and use object storage-only (ephemeral ingesters).
+    enabled: false
     storageClass: oci-block-storage
     size: 5Gi
   resources:
@@ -52,7 +55,10 @@ ruler:
   enabled: true
   replicas: 1
   persistentVolume:
-    enabled: true
+    # Disabling this prevents the ruler from storing rules on a local block volume. Rules persist
+    # in object storage or via the configured storage backend and are recommended to be managed
+    # externally if possible. Disable to avoid PVC/PV creation.
+    enabled: false
     storageClass: oci-block-storage
     size: 5Gi
 
