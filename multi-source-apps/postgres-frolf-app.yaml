@@ -1,9 +1,9 @@
 name: postgres-frolf
 app:
   name: postgres-frolf
-  helmRepo: https://charts.bitnami.com/bitnami
+  helmRepo: registry-1.docker.io
   chart: bitnami/postgresql
-  chartVersion: 16.7.9
+  chartVersion: 18.1.10
   valueFiles: charts/postgres-frolf/values.yaml
   namespace: frolf-bot
   ssa: ServerSideApply=false
