@@ -12,6 +12,8 @@ config:
         storageClassName: "oci-block-storage"
   nats:
     port: 4222 # Default NATS port
+    jetstream:
+      enabled: true
     tls:
       enabled: false # Set to true if you want to enable TLS
 
